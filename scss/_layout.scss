@@ -1,0 +1,23 @@
+@mixin flex-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+@mixin inline-text {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.content {
+  @include inline-text();
+}
+
+.main {
+  @include flex-box();
+  @include inline-text();
+  li {
+    background-color: lightblue;
+  }
+}

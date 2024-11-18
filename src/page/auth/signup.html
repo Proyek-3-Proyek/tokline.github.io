@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./../../../public/css/styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <section class="container">
+      <div class="image-section">
+        <div class="image_wrapper">
+        </div>
+
+        <div class="content-container">
+          <h1 class="section-heading">Selamat Datang Di <span>Shoju</span></h1>
+          <p class="section-paragraph">Belanja mudah dengan sekali sentuhan</p>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-wrapper">
+          <div class="logo-container">
+            <a href="#" class="logo-container">
+              <img src="" alt="logo" />
+            </a>
+          </div>
+
+          <h2> </h2>
+          <p>Enter you credentials to create your account.</p>
+
+          <div class="input-container">
+            <form action="" method="post">
+              <div class="form-group">
+                <label for="email"></label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  aria-describedby="emailHelp"
+                  placeholder=""
+                  value=""
+                />
+                <small id="emailHelp" class="form-text text-muted"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="username"> </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="username"
+                  placeholder=""
+                  value=""
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="password"><?= lang('Auth.password') ?></label>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  placeholder=""
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="pass_confirm"
+                  ><?= lang('Auth.repeatPassword') ?></label
+                >
+                <input type="password" name="pass_confirm" class="form-control "
+                placeholder=""" autocomplete="off" />
+              </div>
+
+              <button type="submit" class="signup-btn"></button>
+            </form>
+          </div>
+
+          <div>
+            <span>you have account?</span>
+            <a class="regis-btn" href="login">Login</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>

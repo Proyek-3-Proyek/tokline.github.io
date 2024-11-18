@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./../../../public/css/styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="">
+      <section class="container">
+        <div class="image-section">
+          <div class="image_wrapper">
+            <img src="<?= base_url('/image/shopping,png.jpg') ?>" alt="" />
+          </div>
+
+          <div class="content-container">
+            <h1 class="section-heading">
+              Selamat Datang Di <span>Shoju</span>
+            </h1>
+            <p class="section-paragraph">
+              Belanja mudah dengan sekali sentuhan
+            </p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-wrapper">
+            <div class="logo-container">
+              <a href="<?= base_url('dashboard') ?>" class="logo-container">
+                <img src="<?= base_url('/image/Store.png') ?>" alt="logo" />
+              </a>
+            </div>
+
+            <p>Enter you credentials to access your account.</p>
+
+            <form action="<?= url_to('login') ?>" method="post">
+              <div class="input-container">
+                <div class="form-group">
+                  <label for="login"></label>
+                  <input
+                    type="email"
+                    class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>"
+                    name="login"
+                    placeholder="Email"
+                  />
+                  <div class="invalid-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="login"></label>
+                  <input
+                    type="text"
+                    class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>"
+                    name="login"
+                    placeholder="username"
+                  />
+                  <div class="invalid-feedback"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password"></label>
+                  <input
+                    type="password"
+                    name="password"
+                    class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>"
+                    placeholder="password"
+                  />
+                  <div class="invalid-feedback"></div>
+                </div>
+              </div>
+
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    name="remember"
+                    class="form-check-input"
+                  />
+                </label>
+              </div>
+
+              <button type="submit" class="login-btn"></button>
+            </form>
+
+            <div>
+              <p><a href=""></a>Forgot password</p>
+
+              <p><a class="regis-btn" href="<?= url_to('register') ?>"></a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

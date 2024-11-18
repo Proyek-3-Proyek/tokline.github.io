@@ -27,7 +27,7 @@
                 >Bayar dengan scan QR dibawah dengan DANA untuk membeli
                 <?= $p['namapakaian']; ?> </i
               ><br />
-              <img src="<?= base_url('QRS/QRS_DANA.png') ?>" width="300" />
+              <img src="./../../../image/" width="300" />
               <p
                 id="totalHargaModal"
                 style="font-weight: 600; font-size: 2pc"
@@ -109,7 +109,7 @@
       // Hitung total harga secara dinamis berdasarkan jumlah beli
       document.getElementById('jumlahBeli').addEventListener('input', function() {
           var jumlahBeli = this.value;
-          var hargaPakaian = <?= $p['hargapakaian']; ?>;
+          var hargaPakaian = hargaPakaian ;
           var totalHarga = jumlahBeli * hargaPakaian;
           document.getElementById('totalHargaModal').innerText = 'Rp. ' + totalHarga;
           document.getElementById('totalHarga').value = value + totalHarga;

@@ -15,12 +15,12 @@
         </h1>
         <div class="img-content">
           <img
-            src="<?= base_url('uploads/' . $p['gambar']) ?>"
+            src=""
             alt="Uploaded Image"
             width="250"
           />
           <div class="text-content">
-            <p><?= $p['deskripsi']; ?></p>
+            <p></p>
             <p>
               Tersedia :
               <?= $p['stok']; ?>
@@ -67,7 +67,7 @@
 
       function hitungTotal() {
           var jumlah = document.getElementById('jumlahBeli').value;
-          var hargaSatuan = <?= $p['hargapakaian']; ?>;
+          var hargaSatuan = hargaSatuan;
           totalHarga = jumlah * hargaSatuan;
 
           var formatter = new Intl.NumberFormat('id-ID', {
@@ -77,10 +77,10 @@
           document.getElementById('totalHarga').innerHTML = 'Total Harga : ' + formatter.format(totalHarga);
 
           // Batasi nilai jumlah beli agar tidak melebihi stok yang tersedia
-          if (jumlah > <?= $p['stok']; ?>) {
+          if (jumlah > stok) {
               alert("Tidak dapat membeli lebih dari stok yang tersedia.");
-              document.getElementById('jumlahBeli').value = <?= $p['stok']; ?>;
-              jumlah = <?= $p['stok']; ?>;
+              document.getElementById('jumlahBeli').value = stok;
+              jumlah = stok;
           }
 
           // Tampilkan totalHargaModal di dalam modal
@@ -94,7 +94,7 @@
       var totalHarga = 0;
 
       function hitungTotal(jumlah) {
-          var hargaSatuan = <?= $p['hargapakaian']; ?>;
+          var hargaSatuan = hargapakaian;
           totalHarga = jumlah * hargaSatuan;
 
           var formatter = new Intl.NumberFormat('id-ID', {
@@ -116,7 +116,7 @@
           var jumlah = document.getElementById('jumlahBeli').value;
 
           // Ganti nilai total harga sesuai dengan jumlah yang diinputkan
-          var hargaSatuan = <?= $p['hargapakaian']; ?>;
+          var hargaSatuan = hargapakaian;
           var totalHarga = jumlah * hargaSatuan;
 
           // Format totalHarga sebagai mata uang Rupiah

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/scss/main.css" />
+    <link href="./dist/styles.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="./../scss/main.css" /> -->
     <link
       rel="stylesheet"
@@ -30,6 +30,14 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <title>Shoju</title>
+    <meta
+      name="description"
+      content="Shoju menawarkan koleksi pakaian trendy untuk kebutuhan fashion Anda. Explore sekarang!"
+    />
+    <meta
+      name="keywords"
+      content="Shoju, toko baju, pakaian trendy, fashion stylish"
+    />
   </head>
   <body>
     <nav class="navbar">
@@ -76,7 +84,9 @@
         <div class="card" style="--clr: #009688">
           <div class="img-box">
             <img
-              src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1374&auto=format&fit=crop"
+              alt="Celana"
+              loading="lazy"
             />
           </div>
           <div class="content">
@@ -86,7 +96,11 @@
               Architecto, hic? Magnam eum error saepe doloribus corrupti
               repellat quisquam alias doloremque!
             </p>
-            <a href="">Read More</a>
+            <a
+              href="#details"
+              onclick="alert('Detail produk akan segera tersedia!');"
+              >Read More</a
+            >
           </div>
         </div>
         <div class="card" style="--clr: #ff3e7f">
@@ -123,6 +137,7 @@
         </div>
       </div>
     </section>
+    <div id="modalPlaceholder"></div>
 
     <!-- content-2 -->
     <div class="content-2">
@@ -134,7 +149,7 @@
         memuaskan, Shoju menghadirkan koleksi terbaru dengan desain yang
         up-to-date dan kualitas yang tak tertandingi..
       </p>
-      <a href="#">Learn more</a>
+      <a href="" id="learnMoreButton">Learn more</a>
     </div>
 
     <div class="blank"></div>
@@ -179,6 +194,8 @@
     </div>
 
     <!-- Footer -->
+
+    <button class="back-to-top">↑</button>
     <footer class="footer">
       <div class="container">
         <div class="row">
@@ -218,6 +235,9 @@
               <a href="#"><i class="fab fa-instagram"></i></a>
               <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
+          </div>
+          <div class="footer-col">
+            <p class="text-xs text-zinc-300">2024 Shoju. All Rights Reserved.</p>
           </div>
         </div>
       </div>

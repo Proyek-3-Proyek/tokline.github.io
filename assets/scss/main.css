@@ -131,7 +131,6 @@
   top: 235px;
   width: 100%;
   height: 50px;
-  padding: 0 30px;
   text-align: center;
   overflow: hidden;
   transition: 0.5s;
@@ -147,6 +146,7 @@
 }
 .content-1 .container-card .card .content p {
   color: #333;
+  padding-top: 20px;
 }
 .content-1 .container-card .card .content a {
   position: relative;
@@ -461,88 +461,198 @@
   height: 65px;
 }
 
-.button-beli .beli {
-  --color: #ee5487;
+/* katalog */
+
+.button-buy {
+  align-items: center;
+  appearance: none;
+  border-radius: 4px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 1px -2px, rgba(0, 0, 0, 0.14) 0 2px 2px 0,
+    rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: Roboto, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  height: 36px;
+  justify-content: center;
+  letter-spacing: 0.0892857em;
+  line-height: normal;
+  min-width: 64px;
+  outline: none;
+  overflow: visible;
+  padding: 0 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  will-change: transform, opacity;
+}
+
+.button-buy:hover {
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px -1px, rgba(0, 0, 0, 0.14) 0 4px 5px 0,
+    rgba(0, 0, 0, 0.12) 0 1px 10px 0;
+}
+
+.button-buy:disabled {
+  background-color: rgba(0, 0, 0, 0.12);
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 0, rgba(0, 0, 0, 0.14) 0 0 0 0,
+    rgba(0, 0, 0, 0.12) 0 0 0 0;
+  color: rgba(0, 0, 0, 0.37);
+  cursor: default;
+  pointer-events: none;
+}
+
+.button-buy:not(:disabled) {
+  background-color: #6200ee;
+}
+
+.button-buy:focus {
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 4px -1px, rgba(0, 0, 0, 0.14) 0 4px 5px 0,
+    rgba(0, 0, 0, 0.12) 0 1px 10px 0;
+}
+
+.button-buy:active {
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 5px -3px,
+    rgba(0, 0, 0, 0.14) 0 8px 10px 1px, rgba(0, 0, 0, 0.12) 0 3px 14px 2px;
+  background: #a46bf5;
 }
 
 .background-modal {
+  display: none;
   position: fixed;
   top: 0;
-  left: auto;
-  right: auto;
+  left: 0;
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  visibility: hidden;
   background: rgba(0, 0, 0, 0.5);
-}
-
-.open .background-modal {
-  visibility: visible;
-  opacity: 1;
-}
-
-@keyframes modal-in {
-  0%,
-  50% {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-  }
-  55%,
-  100% {
-    right: 50%;
-  }
-  60% {
-    width: 300px;
-    border-radius: 12px;
-  }
-  75% {
-    translate: 50% -50%;
-  }
-}
-.page-content,
-.modal,
-.background-modal {
-  transition: 0.5s;
+  z-index: 999;
 }
 
 .modal {
+  display: none;
   position: fixed;
   top: 50%;
-  font-family: "Poppins", sans-serif;
-  right: -800px;
-  translate: 50% -50%;
-  background: #ffffff;
-  color: #000000;
-  padding: 60px 40px;
-  width: 600px;
-  height: 500px;
-  border-radius: 12px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  animation: fadeIn 0.4s ease forwards;
 }
-
-@keyframes modal-content-in {
-  0%,
-  75% {
+.modal.show {
+  display: block;
+}
+@keyframes fadeIn {
+  from {
     opacity: 0;
+    transform: translate(-50%, -60%);
   }
-  85%,
-  100% {
+  to {
     opacity: 1;
+    transform: translate(-50%, -50%);
   }
 }
-.open .modal-content {
-  animation: modal-content-in 1s both;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header h2 {
+  margin: 0;
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+.modal-content {
+  margin-top: 20px;
+}
+.modal-content img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.modal-body {
+  margin-top: 20px;
+}
+.modal-body h3,
+.modal-body p {
+  margin: 5px 0;
+}
+.modal-body .price {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin: 10px 0;
+}
+.modal-body .stock {
+  font-size: 0.9rem;
+  color: #666;
+}
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.modal-actions input {
+  width: 70px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+.modal-actions button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.modal-actions button:hover {
+  background: #0056b3;
 }
 
-.open > .page-content {
-  scale: 0.75;
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
-.open .modal {
-  animation: modal-in 1s both;
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  background: #0aa5ff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.back-to-top:hover {
+  transform: scale(1.1);
 }
 
 :root {

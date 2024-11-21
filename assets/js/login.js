@@ -24,3 +24,16 @@ closeModal.addEventListener("click", function () {
 document.getElementById("whatsappLogin").addEventListener("click", function () {
   window.location.href = "./../../../src/page/whatsauth/index.html";
 });
+
+const loadingOverlay = document.getElementById("loadingOverlay");
+
+// Redirect to signup.html with loading effect
+document
+  .getElementById("signupRedirect")
+  .addEventListener("click", function (e) {
+    e.preventDefault(); // Prevent default link behavior
+    loadingOverlay.classList.remove("hidden"); // Show loading overlay
+    setTimeout(() => {
+      window.location.href = "./signup.html"; // Redirect after delay
+    }, 2000); // 2-second delay for loading effect
+  });

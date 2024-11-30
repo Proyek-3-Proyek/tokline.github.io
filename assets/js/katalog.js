@@ -78,7 +78,7 @@ function orderProduct() {
 
   // Redirect ke halaman beli.html dengan query parameter
   const url = new URL(
-    "./src/page/Beli/index.html",
+    "./page/Beli/index.html",
     window.location.origin
   );
   url.searchParams.set("name", productName);

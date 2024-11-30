@@ -52,8 +52,7 @@ function orderProduct() {
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
   );
-  const size =
-    document.getElementById("modalProductSize").value || "Default Size";
+  const size = document.getElementById("modalProductSize").value || "Default Size";
 
   if (quantity > stock) {
     alert("Jumlah produk yang dipesan melebihi stok yang tersedia!");
@@ -68,17 +67,7 @@ function orderProduct() {
   const productName = document.getElementById("modalProductName").textContent;
   const rawPrice = document.getElementById("modalProductPrice").textContent;
   const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
-
-  // Ambil URL gambar produk
-  const baseUrl = window.location.origin; // Mendapatkan root domain
-  let productImage = document.getElementById("modalProductImage").getAttribute("src");
-
-  // Tambahkan base URL jika path gambar relatif
-  if (!productImage.startsWith("http")) {
-    productImage = baseUrl + productImage;
-  }
-
-  console.log("Product Image URL:", productImage); // Untuk debugging
+  const productImage = document.getElementById("modalProductImage").src;
 
   // Validasi data
   if (!productName || !productPrice || !quantity || !size || !productImage) {
@@ -88,7 +77,7 @@ function orderProduct() {
 
   // Redirect ke halaman beli.html dengan query parameter
   const url = new URL(
-    "https://proyek-3-proyek.github.io/page/Beli/index.html",
+    "./../../src/page/Beli/index.html",
     window.location.origin
   );
   url.searchParams.set("name", productName);
@@ -97,6 +86,5 @@ function orderProduct() {
   url.searchParams.set("size", size);
   url.searchParams.set("image", productImage);
 
-  console.log("Redirect URL:", url.toString()); // Untuk debugging
   window.location.href = url.toString();
 }

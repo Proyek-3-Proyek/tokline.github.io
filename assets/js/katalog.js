@@ -68,7 +68,9 @@ function orderProduct() {
   const productName = document.getElementById("modalProductName").textContent;
   const rawPrice = document.getElementById("modalProductPrice").textContent;
   const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
-  const productImage = document.getElementById("modalProductImage").src;
+  const baseUrl = window.location.origin; // Mendapatkan root domain
+  const productImage = baseUrl + "/" + document.getElementById("modalProductImage").getAttribute("src");
+  
 
   // Validasi data
   if (!productName || !productPrice || !quantity || !size || !productImage) {

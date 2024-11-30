@@ -18,43 +18,51 @@
   <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="flex h-screen">
-      <aside class="w-64 bg-gray-800 text-white">
-        <div
-          class="p-4 text-center text-2xl font-bold border-b border-gray-700"
-        >
-          Admin Dashboard
+      <aside class="w-64 bg-gray-800 text-white flex flex-col justify-between">
+        <div>
+          <div
+            class="p-4 text-center text-2xl font-bold border-b border-gray-700"
+          >
+            Admin Dashboard
+          </div>
+          <nav class="mt-4">
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700 active_sidebar"
+              ><i class="fa-solid fa-house" style="color: #ffffffa7"></i>
+              Dashboard</a
+            >
+            <a
+              href="./../manage/product.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+            >
+              <i class="fa-solid fa-shirt" style="color: #ffffffa7"></i> Kelola
+              Produk</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+              ><i
+                class="fa-solid fa-money-bill-wave"
+                style="color: #ffffffa7"
+              ></i>
+              Kelola Transaksi</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+              ><i class="fa-solid fa-credit-card" style="color: #ffffffa7"></i>
+              Metode Pembayaran</a
+            >
+          </nav>
         </div>
-        <nav class="mt-4">
-          <a
-            href="#"
-            class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700 active_sidebar"
-            ><i class="fa-solid fa-house" style="color: #ffffffa7"></i>
-            Dashboard</a
-          >
-          <a
-            href="./../manage/product.html"
-            class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
-          >
-            <i class="fa-solid fa-shirt" style="color: #ffffffa7"></i> Kelola
-            Produk</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
-            ><i
-              class="fa-solid fa-money-bill-wave"
-              style="color: #ffffffa7"
-            ></i>
-            Kelola Transaksi</a
-          >
-          <a
-            href="#"
-            class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
-            ><i class="fa-solid fa-credit-card" style="color: #ffffffa7"></i>
-            Metode Pembayaran</a
-          >
-        </nav>
+        <div class="p-4 border-t border-gray-700">
+            <button id="logoutButton" class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+              Logout
+            </button>
+          </div>
       </aside>
+
 
       <!-- Main Content -->
       <main class="flex-1 p-6">

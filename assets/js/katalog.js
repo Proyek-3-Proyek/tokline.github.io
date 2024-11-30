@@ -45,7 +45,6 @@ document.querySelector(".modal").addEventListener("click", (event) => {
   event.stopPropagation(); // Prevent click inside modal from closing it
 });
 
-// Order Product Function
 function orderProduct() {
   const quantity = parseInt(
     document.getElementById("modalProductQuantity").value
@@ -53,28 +52,40 @@ function orderProduct() {
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
   );
-  const size = document.getElementById("modalProductSize").value;
+  const size =
+    document.getElementById("modalProductSize").value || "Default Size";
 
   if (quantity > stock) {
     alert("Jumlah produk yang dipesan melebihi stok yang tersedia!");
-  } else if (quantity < 1) {
-    alert("Jumlah produk harus minimal 1!");
-  } else {
-    // Ambil detail produk
-    const productName = document.getElementById("modalProductName").textContent;
-    const productPrice =
-      document.getElementById("modalProductPrice").textContent;
-
-    // Redirect ke halaman beli.html dengan query parameter
-    const url = new URL(
-      "./../../src/page/Beli/index.html",
-      window.location.origin
-    );
-    url.searchParams.set("name", productName);
-    url.searchParams.set("price", productPrice);
-    url.searchParams.set("quantity", quantity);
-    url.searchParams.set("size", size);
-
-    window.location.href = url.toString();
+    return;
   }
+  if (quantity < 1) {
+    alert("Jumlah produk harus minimal 1!");
+    return;
+  }
+
+  // Ambil detail produk
+  const productName = document.getElementById("modalProductName").textContent;
+  const rawPrice = document.getElementById("modalProductPrice").textContent;
+  const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
+  const productImage = document.getElementById("modalProductImage").src;
+
+  // Validasi data
+  if (!productName || !productPrice || !quantity || !size || !productImage) {
+    alert("Data pemesanan tidak lengkap!");
+    return;
+  }
+
+  // Redirect ke halaman beli.html dengan query parameter
+  const url = new URL(
+    "./../../src/page/Beli/index.html",
+    window.location.origin
+  );
+  url.searchParams.set("name", productName);
+  url.searchParams.set("price", productPrice);
+  url.searchParams.set("quantity", quantity);
+  url.searchParams.set("size", size);
+  url.searchParams.set("image", productImage);
+
+  window.location.href = url.toString();
 }

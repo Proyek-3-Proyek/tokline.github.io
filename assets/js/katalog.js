@@ -78,7 +78,7 @@ function orderProduct() {
 
   // Redirect ke halaman beli.html dengan query parameter
   const url = new URL(
-    "./page/Beli/index.html",
+    "https://proyek-3-proyek.github.io/page/Beli/index.html",
     window.location.origin
   );
   url.searchParams.set("name", productName);

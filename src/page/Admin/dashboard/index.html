@@ -1,83 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link href="./../../../../dist/styles.css" rel="stylesheet" />
-</head>
-<body class="bg-gray-100">
-  <!-- Sidebar -->
-  <div class="flex h-screen">
-    <aside class="w-64 bg-gray-800 text-white">
-      <div class="p-4 text-center text-2xl font-bold border-b border-gray-700">
-        Admin Dashboard
-      </div>
-      <nav class="mt-4">
-        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700">Dashboard</a>
-        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700">Kelola Produk</a>
-        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700">Kelola Pembayaran</a>
-        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700">Metode Pembayaran</a>
-      </nav>
-    </aside>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link href="./../../../../dist/styles.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+      <aside class="w-64 bg-gray-800 text-white">
+        <div
+          class="p-4 text-center text-2xl font-bold border-b border-gray-700"
+        >
+          Admin Dashboard
+        </div>
+        <nav class="mt-4">
+          <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            >Dashboard</a
+          >
+          <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            >Kelola Produk</a
+          >
+          <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            >Kelola Pembayaran</a
+          >
+          <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700"
+            >Metode Pembayaran</a
+          >
+        </nav>
+      </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
-      <!-- Kelola Produk -->
-      <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-4">Kelola Produk</h2>
-        <table class="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr>
-              <th class="border border-gray-300 px-4 py-2">Nama Produk</th>
-              <th class="border border-gray-300 px-4 py-2">Harga</th>
-              <th class="border border-gray-300 px-4 py-2">Stok</th>
-              <th class="border border-gray-300 px-4 py-2">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="border border-gray-300 px-4 py-2">Produk A</td>
-              <td class="border border-gray-300 px-4 py-2">Rp50.000</td>
-              <td class="border border-gray-300 px-4 py-2">100</td>
-              <td class="border border-gray-300 px-4 py-2">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Hapus</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+        <!-- Kelola Produk -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <h2 class="text-xl font-semibold mb-4">Kelola Produk</h2>
+          <table class="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th class="border border-gray-300 px-4 py-2">Nama Produk</th>
+                <th class="border border-gray-300 px-4 py-2">Harga</th>
+                <th class="border border-gray-300 px-4 py-2">Stok</th>
+                <th class="border border-gray-300 px-4 py-2">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-300 px-4 py-2">Produk A</td>
+                <td class="border border-gray-300 px-4 py-2">Rp50.000</td>
+                <td class="border border-gray-300 px-4 py-2">100</td>
+                <td class="border border-gray-300 px-4 py-2">
+                  <button
+                    class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
 
-      <!-- Kelola Pembayaran -->
-      <section class="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold mb-4">Kelola Pembayaran</h2>
-        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Tambah Metode</button>
-        <ul class="mt-4">
-          <li class="border-b py-2">Transfer Bank</li>
-          <li class="border-b py-2">E-Wallet</li>
-        </ul>
-      </section>
+        <!-- Kelola Pembayaran -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <h2 class="text-xl font-semibold mb-4">Kelola Pembayaran</h2>
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Tambah Metode
+          </button>
+          <ul class="mt-4">
+            <li class="border-b py-2">Transfer Bank</li>
+            <li class="border-b py-2">E-Wallet</li>
+          </ul>
+        </section>
 
-      <!-- Produk Masuk -->
-      <section class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold mb-4">Produk Masuk</h2>
-        <form class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Nama Produk</label>
-            <input type="text" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Nama Produk">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Jumlah</label>
-            <input type="number" class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Jumlah">
-          </div>
-          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Simpan</button>
-        </form>
-      </section>
-    </main>
-  </div>
-</body>
+        <!-- Produk Masuk -->
+        <section class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold mb-4">Produk Masuk</h2>
+          <form class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Nama Produk</label
+              >
+              <input
+                type="text"
+                class="w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="Nama Produk"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700"
+                >Jumlah</label
+              >
+              <input
+                type="number"
+                class="w-full border border-gray-300 rounded px-3 py-2"
+                placeholder="Jumlah"
+              />
+            </div>
+            <button
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Simpan
+            </button>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>

@@ -68,9 +68,17 @@ function orderProduct() {
   const productName = document.getElementById("modalProductName").textContent;
   const rawPrice = document.getElementById("modalProductPrice").textContent;
   const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
+
+  // Ambil URL gambar produk
   const baseUrl = window.location.origin; // Mendapatkan root domain
-  const productImage = baseUrl + "/" + document.getElementById("modalProductImage").getAttribute("src");
-  
+  let productImage = document.getElementById("modalProductImage").getAttribute("src");
+
+  // Tambahkan base URL jika path gambar relatif
+  if (!productImage.startsWith("http")) {
+    productImage = baseUrl + productImage;
+  }
+
+  console.log("Product Image URL:", productImage); // Untuk debugging
 
   // Validasi data
   if (!productName || !productPrice || !quantity || !size || !productImage) {
@@ -89,5 +97,6 @@ function orderProduct() {
   url.searchParams.set("size", size);
   url.searchParams.set("image", productImage);
 
+  console.log("Redirect URL:", url.toString()); // Untuk debugging
   window.location.href = url.toString();
 }

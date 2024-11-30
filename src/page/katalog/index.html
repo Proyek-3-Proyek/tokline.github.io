@@ -38,27 +38,15 @@
         <a href="./index.html">SHOJU</a>
       </div>
       <div class="menu">
-        <div class="menu-links active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 ">
-          <a href="./../../../index.html"
-            >Home <i class="i-home fi fi-rr-home"></i
-          ></a>
-          <a href="#"
+        <div class="menu-links">
+          <a href="">Home <i class="i-home fi fi-rr-home"></i></a>
+          <a href="./src/page/katalog/index.html"
             >Belanja <i class="i-belanja fi fi-rr-shopping-bag"></i
           ></a>
-          <a href="#" id="aboutLink"
-            >About <i class="i-about fi fi-rr-interrogation"></i
-          ></a>
           <a href="#">Contact <i class="i-contact fi fi-rr-phone-call"></i></a>
-          <a href="#"
-            >Keranjang <i class="i-keranjang fi fi-rr-shopping-cart"></i>
-          </a>
         </div>
         <div class="profil">
-          <div class="profil-u">
-            <a href="./src/page/auth/login.html"
-              ><i class="i-user fi fi-rr-user"></i
-            ></a>
-          </div>
+          <div id="profil-content"></div>
         </div>
         <div class="menu"></div>
       </div>
@@ -73,27 +61,26 @@
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
-                src="./../../../assets/img/p5.jpeg"
+                src="./../../../assets/img/p2.jpeg"
                 alt="Uploaded Image"
                 width="100"
                 height="100"
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket StoneIsland</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 500.000</p>
               </div>
+              <button class="button-buy" onclick="openOrderModal(this)">
+                Beli
+              </button>
+            </div>
+          </div>
 
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
-                Beli
-              </button>
-            </div>
-          </div>
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
@@ -104,19 +91,19 @@
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket StoneIsland</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 500.000</p>
               </div>
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
+              <button class="button-buy" onclick="openOrderModal(this)">
                 Beli
               </button>
             </div>
           </div>
+
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
@@ -127,19 +114,19 @@
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket StoneIsland</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 500.000</p>
               </div>
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
+              <button class="button-buy" onclick="openOrderModal(this)">
                 Beli
               </button>
             </div>
           </div>
+
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
@@ -150,19 +137,19 @@
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket Bulu Serigala</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 100.000</p>
               </div>
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
+              <button class="button-buy" onclick="openOrderModal(this)">
                 Beli
               </button>
             </div>
           </div>
+
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
@@ -173,19 +160,19 @@
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket StoneIsland</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 500.000</p>
               </div>
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
+              <button class="button-buy" onclick="openOrderModal(this)">
                 Beli
               </button>
             </div>
           </div>
+
           <div class="card" style="--clr: #009688">
             <div class="img-box">
               <img
@@ -196,15 +183,14 @@
               />
             </div>
             <div class="content">
-              <h2 class="pt-3">Jaket StoneIsland</h2>
-              <p class="p-3">Jaket kulit berkualitas tinggi dari Jerman</p>
+              <h2 id="nama_produk" class="pt-3">Jaket StoneIsland</h2>
+              <p id="deskrip_produk" class="p-3">
+                Jaket kulit berkualitas tinggi dari Jerman
+              </p>
               <div class="harstok pb-5">
-                <p class="text-sky-400">Harga: Rp.</p>
+                <p id="harga_produk" class="text-sky-400">Harga: Rp. 500.000</p>
               </div>
-              <button
-                class="button-buy"
-                onclick="openOrderModal('Jaket StoneIsland', 'Jaket kulit berkualitas tinggi dari Jerman', './../../../assets/img/p5.jpeg', 500000, 10)"
-              >
+              <button class="button-buy" onclick="openOrderModal(this)">
                 Beli
               </button>
             </div>
@@ -217,7 +203,7 @@
     <div class="background-modal"></div>
 
     <!-- Modal -->
-    <div class="modal bg-zinc-300" id="orderModal">
+    <div class="modal bg-white" id="orderModal">
       <div class="modal-header">
         <h2>Pemesanan Produk</h2>
         <button class="modal-close" onclick="closeOrderModal()">&times;</button>
@@ -229,11 +215,25 @@
           <p id="modalProductDescription"></p>
           <p class="price">Rp. <span id="modalProductPrice"></span></p>
           <p class="stock">Stok: <span id="modalProductStock"></span></p>
+          <label for="modalProductSize">Pilih Ukuran:</label>
+          <select id="modalProductSize" class="input-field">
+            <option value="S">Small (S)</option>
+            <option value="M">Medium (M)</option>
+            <option value="L">Large (L)</option>
+            <option value="XL">Extra Large (XL)</option>
+          </select>
         </div>
         <div class="modal-actions">
-          <label for="quantity">Jumlah:</label>
-          <input type="number" id="modalProductQuantity" min="1" value="1" />
-          <button onclick="orderProduct()">Pesan</button>
+          <label for="modalProductQuantity">Jumlah:</label>
+          <input
+            type="number"
+            id="modalProductQuantity"
+            min="1"
+            value="1"
+            class="input-field"
+          />
+
+          <button onclick="orderProduct()" class="order-button">Pesan</button>
         </div>
       </div>
     </div>

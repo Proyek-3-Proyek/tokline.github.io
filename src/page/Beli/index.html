@@ -3,131 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./../../../css/styles.css">
-    <title>Document</title>
+    <title>Detail Pemesanan</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+     <link rel="stylesheet" href="./../../../dist/styles.css">
   </head>
-  <body>
-    <div class="content-4" id="beli/<?= $p['idpakaian'] ?>">
-      <div class="title-goods">
-        <h1>
-          Beli
-          <?= $p['namapakaian']; ?>
-        </h1>
-        <div class="img-content">
-          <img
-            src=""
-            alt="Uploaded Image"
-            width="250"
-          />
-          <div class="text-content">
-            <p></p>
-            <p>
-              Tersedia :
-              <?= $p['stok']; ?>
-            </p>
-            <p>
-              Ukuran :
-              <?= $p['ukuran']; ?>
-            </p>
-            <p>
-              Warna :
-              <?= $p['warna']; ?>
-            </p>
-            <p>
-              Harga satuan : Rp.
-              <?= number_format($p['hargapakaian'], 0, ',', '.'); ?>
-            </p>
-            <p id="totalHarga">Total Harga : Rp. 0</p>
-            <div class="pembelian d-flex gap-3">
-              <input
-                type="number"
-                class="form-control w-75"
-                id="jumlahBeli"
-                oninput="hitungTotal()"
-                max="<?= $p['stok']; ?>"
-                min="1"
-              />
-              <button
-                type="button"
-                class="btn btn-success"
-                data-bs-toggle="modal"
-                data-bs-target="#beli<?= $p['idpakaian']; ?>"
-                onclick="hitungTotal()"
-              >
-                Beli
-              </button>
-            </div>
-          </div>
-        </div>
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+      <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">
+        Detail Pemesanan
+      </h1>
+
+      <div class="mb-4">
+        <h2 class="text-sm text-gray-500">Nama Produk:</h2>
+        <p id="productName" class="text-lg font-medium text-gray-900">...</p>
+      </div>
+
+      <div class="mb-4">
+        <h2 class="text-sm text-gray-500">Harga Satuan:</h2>
+        <p id="productPrice" class="text-lg font-medium text-gray-900">...</p>
+      </div>
+
+      <div class="mb-4">
+        <h2 class="text-sm text-gray-500">Jumlah:</h2>
+        <p id="productQuantity" class="text-lg font-medium text-gray-900">
+          ...
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <h2 class="text-sm text-gray-500">Ukuran:</h2>
+        <p id="productSize" class="text-lg font-medium text-gray-900">...</p>
+      </div>
+
+      <div class="border-t border-gray-200 pt-4">
+        <h2 class="text-lg font-semibold text-gray-800">Total Harga:</h2>
+        <p id="totalPrice" class="text-2xl font-bold text-green-600">...</p>
+      </div>
+
+      <div class="mt-6 flex justify-between">
+        <button
+          class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
+          onclick="window.history.back()"
+        >
+          Kembali
+        </button>
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          onclick="confirmOrder()"
+        >
+          Konfirmasi
+        </button>
       </div>
     </div>
 
     <script>
-      var totalHarga = 0;
-
-      function hitungTotal() {
-          var jumlah = document.getElementById('jumlahBeli').value;
-          var hargaSatuan = hargaSatuan;
-          totalHarga = jumlah * hargaSatuan;
-
-          var formatter = new Intl.NumberFormat('id-ID', {
-              style: 'currency',
-              currency: 'IDR'
-          });
-          document.getElementById('totalHarga').innerHTML = 'Total Harga : ' + formatter.format(totalHarga);
-
-          // Batasi nilai jumlah beli agar tidak melebihi stok yang tersedia
-          if (jumlah > stok) {
-              alert("Tidak dapat membeli lebih dari stok yang tersedia.");
-              document.getElementById('jumlahBeli').value = stok;
-              jumlah = stok;
-          }
-
-          // Tampilkan totalHargaModal di dalam modal
-          document.getElementById('totalHargaModal').innerHTML = ' ' + formatter.format(totalHarga);
-          document.getElementById('totalHargaInput').value = totalHarga;
-          document.getElementById('jumlahBeliInput').value = jumlah;
-
+      // Fungsi untuk mengambil query parameter dari URL
+      function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          name: params.get("name"),
+          price: params.get("price"),
+          quantity: params.get("quantity"),
+          size: params.get("size"),
+        };
       }
 
+      // Fungsi untuk menampilkan detail pemesanan
+      function displayOrderDetails() {
+        const { name, price, quantity, size } = getQueryParams();
 
-      var totalHarga = 0;
-
-      function hitungTotal(jumlah) {
-          var hargaSatuan = hargapakaian;
-          totalHarga = jumlah * hargaSatuan;
-
-          var formatter = new Intl.NumberFormat('id-ID', {
-              style: 'currency',
-              currency: 'IDR'
-          });
-          document.getElementById('totalHarga').innerHTML = 'Total Harga = ' + formatter.format(totalHarga);
-
-          // Tampilkan totalHargaModal di dalam modal
-          document.getElementById('totalHargaModal').innerHTML = 'Total Harga = ' + formatter.format(totalHarga);
+        if (name && price && quantity && size) {
+          document.getElementById("productName").textContent = name;
+          document.getElementById("productPrice").textContent = `Rp. ${parseInt(
+            price
+          ).toLocaleString()}`;
+          document.getElementById("productQuantity").textContent = quantity;
+          document.getElementById("productSize").textContent = size;
+          document.getElementById("totalPrice").textContent = `Rp. ${(
+            parseInt(price) * parseInt(quantity)
+          ).toLocaleString()}`;
+        } else {
+          alert("Detail pemesanan tidak lengkap!");
+        }
       }
 
-      // Contoh panggilan fungsi dengan parameter (misalnya saat halaman dimuat)
-      // hitungTotal(5); // Gantilah 5 dengan jumlah yang sesuai
-
-
-      function hitungTotal() {
-          // Ambil nilai jumlah dari input
-          var jumlah = document.getElementById('jumlahBeli').value;
-
-          // Ganti nilai total harga sesuai dengan jumlah yang diinputkan
-          var hargaSatuan = hargapakaian;
-          var totalHarga = jumlah * hargaSatuan;
-
-          // Format totalHarga sebagai mata uang Rupiah
-          var formatter = new Intl.NumberFormat('id-ID', {
-              style: 'currency',
-              currency: 'IDR'
-          });
-
-          // Tampilkan totalHarga yang sudah diformat
-          document.getElementById('totalHarga').innerHTML = 'Total Harga: ' + formatter.format(totalHarga);
+      // Fungsi untuk konfirmasi pesanan
+      function confirmOrder() {
+        alert("Pesanan Anda telah dikonfirmasi! Terima kasih.");
       }
+
+      // Panggil fungsi saat halaman selesai dimuat
+      window.onload = displayOrderDetails;
     </script>
   </body>
 </html>

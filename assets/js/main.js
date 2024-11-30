@@ -116,3 +116,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// File: main.js
+
+// Simulasikan fungsi login/logout untuk testing
+function checkLoginStatus() {
+  // Status login disimpan dalam localStorage
+  return localStorage.getItem("isLoggedIn") === "true";
+}
+
+function displayProfile() {
+  const profileContent = document.getElementById("profil-content");
+
+  if (checkLoginStatus()) {
+    // User sudah login, tampilkan profile
+    profileContent.innerHTML = `
+      <a href="./src/page/auth/profile.html" class="text-gray-600 hover:text-gray-800 flex items-center space-x-2">
+        <i class="i-user fi fi-rr-user text-lg"></i>
+        <span>Profil</span>
+      </a>
+    `;
+  } else {
+    // User belum login, tampilkan tombol login
+    profileContent.innerHTML = `
+      <a href="./src/page/auth/login.html" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Login
+      </a>
+    `;
+  }
+}
+
+// Panggil fungsi saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", displayProfile);

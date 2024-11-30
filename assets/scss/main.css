@@ -679,9 +679,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-image: var(--animated_svg);
   scroll-behavior: smooth;
   transition: background-color 0.5s ease;
+}
+
+.body_primary {
+  background-image: var(--animated_svg);
 }
 
 a {

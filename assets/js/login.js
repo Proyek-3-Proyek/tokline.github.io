@@ -56,7 +56,8 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       // Redirect berdasarkan role
       const userRole = parseJwt(data.token).role; // Parse role dari token
       if (userRole === "admin") {
-        window.location.href = "/src/page/admin/dashboard/index.html";
+        window.location.href =
+          "https://proyek-3-proyek.github.io/tokline.github.io/src/page/Admin/dashboard/index.html";
       } else if (userRole === "pelanggan") {
         window.location.href =
           "https://proyek-3-proyek.github.io/tokline.github.io/index.html";

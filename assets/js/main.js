@@ -125,3 +125,19 @@ function updateLoginButton() {
 
 // Panggil fungsi saat halaman selesai dimuat
 document.addEventListener("DOMContentLoaded", updateLoginButton);
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Pastikan elemen ditemukan sebelum menambahkan event listener
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/katalog/index.html']"
+  );
+
+  if (belanjaLink) {
+    belanjaLink.addEventListener("click", function (event) {
+      event.preventDefault(); // Mencegah perilaku default link
+      window.location.href = "./src/page/katalog/index.html"; // Arahkan ke halaman belanja
+    });
+  } else {
+    console.log("Elemen Belanja tidak ditemukan di halaman.");
+  }
+});

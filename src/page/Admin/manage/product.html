@@ -14,45 +14,160 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body>
-    <div class="container">
-      <h1>Kelola Produk</h1>
-      <button id="addProductBtn">Tambah Produk</button>
-      <div id="productList" class="product-list"></div>
-    </div>
+  <body class="bg-gray-100">
+    <!-- Container Utama -->
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="w-64 bg-gray-800 text-white fixed top-0 left-0 h-full overflow-y-auto flex flex-col justify-between"
+      >
+        <div>
+          <div
+            class="p-4 text-center text-2xl font-bold border-b border-gray-700"
+          >
+            Admin Dashboard
+          </div>
+          <nav class="mt-4">
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:bg-gray-700 active_sidebar"
+            >
+              <i class="fa-solid fa-shirt mr-2"></i> Kelola Produk
+            </a>
+            <a
+              href="./transaksi.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:bg-gray-700"
+            >
+              <i class="fa-solid fa-money-bill-wave mr-2"></i> Kelola Transaksi
+            </a>
+          </nav>
+        </div>
+        <div class="p-4 border-t border-gray-700">
+          <button
+            id="logoutButton"
+            class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
 
-    <!-- Modal -->
-    <div id="productModal" class="modal">
-      <div class="modal-content">
-        <h2 id="modalTitle">Tambah Produk</h2>
-        <form id="productForm">
-          <input type="hidden" id="productId" />
-          <label>Nama Produk:</label>
-          <input type="text" id="productName" required /><br /><br />
-          <label>Deskripsi:</label>
-          <textarea id="productDescription" required></textarea><br /><br />
-          <label>Harga:</label>
-          <input type="number" id="productPrice" required /><br /><br />
-          <label>Stok:</label>
-          <input type="number" id="productStock" required /><br /><br />
-          <label>Gambar:</label>
-          <input type="file" id="productImage" /><br /><br />
-          <button type="submit">Simpan</button>
-          <button type="button" id="closeModal">Batal</button>
-        </form>
-      </div>
+      <!-- Konten Utama -->
+      <main class="flex-1 ml-64 p-6 overflow-y-auto">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Produk</h1>
+
+        <!-- Tombol Tambah Produk -->
+        <button
+          id="openModal"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-6"
+        >
+          Tambah Produk
+        </button>
+
+        <!-- Modal -->
+        <div
+          id="modal"
+          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 id="modalTitle" class="text-xl font-semibold mb-4">
+              Tambah Produk
+            </h2>
+            <form id="productForm" class="space-y-4">
+              <input type="hidden" id="productId" />
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Nama Produk</label
+                >
+                <input
+                  id="productName"
+                  type="text"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Nama Produk"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Deskripsi Produk</label
+                >
+                <textarea
+                  id="productDescription"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Deskripsi Produk"
+                  required
+                ></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Harga</label
+                >
+                <input
+                  id="productPrice"
+                  type="number"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Harga"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Stok</label
+                >
+                <input
+                  id="productStock"
+                  type="number"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Stok"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Gambar Produk</label
+                >
+                <input
+                  id="productImage"
+                  type="file"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div class="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  id="closeModal"
+                  class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Daftar Produk -->
+        <div
+          id="productList"
+          class="grid grid-cols-1 md:grid-cols-3 gap-4"
+        ></div>
+      </main>
     </div>
 
     <script>
       const productList = document.getElementById("productList");
-      const productModal = document.getElementById("productModal");
-      const productForm = document.getElementById("productForm");
-      const addProductBtn = document.getElementById("addProductBtn");
+      const modal = document.getElementById("modal");
+      const openModal = document.getElementById("openModal");
       const closeModal = document.getElementById("closeModal");
+      const productForm = document.getElementById("productForm");
       const modalTitle = document.getElementById("modalTitle");
       const token = localStorage.getItem("token");
 
-      // API Base URL
       const BASE_URL = "https://backend-eight-phi-75.vercel.app/api/produk";
 
       // Fetch Produk
@@ -61,7 +176,7 @@
           const response = await fetch(`${BASE_URL}/all`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          if (!response.ok) throw new Error("Gagal memuat produk");
+          if (!response.ok) throw new Error("Gagal mengambil data produk");
           const products = await response.json();
           renderProducts(products);
         } catch (error) {
@@ -74,16 +189,24 @@
         productList.innerHTML = "";
         products.forEach((product) => {
           const productCard = document.createElement("div");
-          productCard.className = "product-card";
+          productCard.className = "bg-white p-4 rounded-lg shadow-md";
           productCard.innerHTML = `
-              <img src="https://storage.supabase.io/gambar/${product.gambar}" alt="${product.nama}">
-              <h3>${product.nama}</h3>
-              <p>${product.deskripsi}</p>
-              <p>Harga: Rp${product.harga}</p>
-              <p>Stok: ${product.qty}</p>
-              <button onclick="editProduct(${product.id})">Edit</button>
-              <button onclick="deleteProduct(${product.id})">Hapus</button>
-            `;
+            <img src="https://storage.supabase.io/gambar/${
+              product.gambar
+            }" class="w-full h-40 object-cover rounded mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">${product.nama}</h3>
+            <p class="text-sm text-gray-500">${product.deskripsi}</p>
+            <p class="text-gray-500">Harga: Rp${product.harga.toLocaleString()}</p>
+            <p class="text-gray-500">Stok: ${product.qty}</p>
+            <div class="mt-4 space-x-2">
+              <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600" onclick="editProduct(${
+                product.id
+              })">Edit</button>
+              <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="deleteProduct(${
+                product.id
+              })">Hapus</button>
+            </div>
+          `;
           productList.appendChild(productCard);
         });
       }
@@ -116,7 +239,7 @@
               body: formData,
             }
           );
-          if (!response.ok) throw new Error("Gagal menyimpan produk");
+          if (!response.ok) throw new Error("Gagal menyimpan data");
           alert("Produk berhasil disimpan");
           closeModal.click();
           fetchProducts();
@@ -147,7 +270,7 @@
           const response = await fetch(`${BASE_URL}/${id}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          if (!response.ok) throw new Error("Gagal memuat produk");
+          if (!response.ok) throw new Error("Gagal mengambil data produk");
           const product = await response.json();
           document.getElementById("productId").value = product.id;
           document.getElementById("productName").value = product.nama;
@@ -156,22 +279,20 @@
           document.getElementById("productPrice").value = product.harga;
           document.getElementById("productStock").value = product.qty;
           modalTitle.textContent = "Edit Produk";
-          productModal.style.display = "flex";
+          modal.classList.remove("hidden");
         } catch (error) {
           console.error(error);
         }
       }
 
       // Event Listeners
-      addProductBtn.addEventListener("click", () => {
-        document.getElementById("productForm").reset();
+      openModal.addEventListener("click", () => {
+        productForm.reset();
         document.getElementById("productId").value = "";
         modalTitle.textContent = "Tambah Produk";
-        productModal.style.display = "flex";
+        modal.classList.remove("hidden");
       });
-      closeModal.addEventListener("click", () => {
-        productModal.style.display = "none";
-      });
+      closeModal.addEventListener("click", () => modal.classList.add("hidden"));
 
       // Inisialisasi
       fetchProducts();

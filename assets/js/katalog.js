@@ -81,7 +81,7 @@ function orderProduct() {
     return;
   }
 
-  // Redirect ke halaman beli.html dengan query parameter
+  // Redirect ke halaman beli dengan query parameter
   const url =
     "/tokline.github.io/src/page/Beli/index.html" +
     `?name=${encodeURIComponent(productName)}` +

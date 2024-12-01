@@ -72,49 +72,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Login menggunakan Google
-  document.getElementById("googleLoginButton").addEventListener("click", () => {
-    // Redirect ke endpoint Google login di backend
-    window.location.href =
-      "https://backend-eight-phi-75.vercel.app/api/auth/google";
-  });
-
-  // Tangani callback Google login
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-  localStorage.setItem("token", token); // Simpan token di local storage untuk penggunaan selanjutnya
-
-  if (token) {
-    // Simpan token ke localStorage
-    localStorage.setItem("token", token);
-    alert("Login berhasil dengan Google!");
-
-    // Parse role user dari token
-    const userRole = parseJwt(token).role;
-
-    // Redirect berdasarkan role
-    if (userRole === "admin") {
+  document.addEventListener("DOMContentLoaded", () => {
+    // Login menggunakan Google
+    document.getElementById("googleLoginButton").addEventListener("click", () => {
+      // Redirect ke endpoint Google login di backend
       window.location.href =
-        "/tokline.github.io/src/page/Admin/dashboard/index.html";
-    } else if (userRole === "pelanggan") {
-      window.location.href = "/tokline.github.io/index.html";
+        "https://backend-eight-phi-75.vercel.app/api/auth/google";
+    });
+  
+    // Tangani callback Google login
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+  
+    if (token) {
+      // Simpan token ke localStorage
+      localStorage.setItem("token", token);
+      alert("Login berhasil dengan Google!");
+  
+      // Parse role user dari token
+      const userRole = parseJwt(token).role;
+  
+      // Redirect berdasarkan role
+      if (userRole === "admin") {
+        window.location.href =
+          "/tokline.github.io/src/page/Admin/dashboard/index.html";
+      } else if (userRole === "pelanggan") {
+        window.location.href = "/tokline.github.io/index.html";
+      }
+    } else {
+      console.log("Token tidak ditemukan di URL.");
     }
+  });
+  
+  // Fungsi untuk mem-parse JWT
+  function parseJwt(token) {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`)
+        .join("")
+    );
+  
+    return JSON.parse(jsonPayload);
   }
-});
-
-// Fungsi untuk mem-parse JWT
-function parseJwt(token) {
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`)
-      .join("")
-  );
-
-  return JSON.parse(jsonPayload);
-}
+  
 
 // Fungsi untuk menampilkan modal error
 function showModal(message) {

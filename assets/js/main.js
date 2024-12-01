@@ -120,25 +120,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Simulasikan fungsi login/logout untuk testing
 function checkLoginStatus() {
-  // Status login disimpan dalam localStorage
-  return localStorage.getItem("isLoggedIn") === "true";
+  // Cek status login dari localStorage
+  const token = localStorage.getItem("token"); // Simpan token login di localStorage
+  return token !== null; // Jika token ada, anggap user sudah login
 }
 
-function displayProfile() {
-  const profileContent = document.getElementById("profil-content");
+function updateLoginButton() {
+  const profileContainer = document.querySelector(".profil");
 
   if (checkLoginStatus()) {
-    // User sudah login, tampilkan profile
-    profileContent.innerHTML = `
-      <a href="./src/page/auth/profile.html" class="text-gray-600 hover:text-gray-800 flex items-center space-x-2">
-        <i class="i-user fi fi-rr-user text-lg"></i>
-        <span>Profil</span>
-      </a>
+    // Jika user sudah login, tampilkan tombol Logout
+    profileContainer.innerHTML = `
+      <button
+        id="logoutButton"
+        class="pr-7 pl-7 pb-2 pt-2 bg-red-500 hover:bg-red-700 rounded-3xl text-white"
+      >
+        Logout
+      </button>
     `;
+
+    // Tambahkan event listener untuk tombol Logout
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      localStorage.removeItem("token"); // Hapus token dari localStorage
+      alert("Anda telah logout.");
+      updateLoginButton(); // Perbarui tampilan tombol
+    });
   } else {
-    // User belum login, tampilkan tombol login
-    profileContent.innerHTML = `
-      <a href="./src/page/auth/login.html" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+    // Jika user belum login, tampilkan tombol Login
+    profileContainer.innerHTML = `
+      <a
+        href="./src/page/auth/login.html"
+        class="pr-7 pl-7 pb-2 pt-2 bg-sky-500 hover:bg-sky-700 rounded-3xl text-white"
+      >
         Login
       </a>
     `;
@@ -146,4 +159,4 @@ function displayProfile() {
 }
 
 // Panggil fungsi saat halaman selesai dimuat
-document.addEventListener("DOMContentLoaded", displayProfile);
+document.addEventListener("DOMContentLoaded", updateLoginButton);

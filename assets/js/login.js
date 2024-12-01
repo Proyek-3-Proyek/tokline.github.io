@@ -21,6 +21,8 @@
 //   modal.classList.add("hidden"); // Hide the modal
 // });// File: login.js
 
+// Handle Google login redirect
+// Event listener untuk tombol Login
 document.getElementById("loginButton").addEventListener("click", async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -32,7 +34,7 @@ document.getElementById("loginButton").addEventListener("click", async () => {
   }
 
   try {
-    // Kirim data login ke backend
+    // Kirim permintaan login ke backend
     const response = await fetch(
       "https://backend-eight-phi-75.vercel.app/api/auth/login",
       {
@@ -50,8 +52,8 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       // Simpan token ke localStorage
       localStorage.setItem("token", data.token);
       alert("Login berhasil!");
-      // Redirect ke halaman utama atau profil
-      window.location.href = "./../../../index.html";
+      // Redirect ke halaman utama
+      window.location.href = "/index.html";
     } else {
       // Tampilkan pesan error dari backend
       alert(data.message || "Login gagal!");
@@ -62,6 +64,7 @@ document.getElementById("loginButton").addEventListener("click", async () => {
   }
 });
 
+// Fungsi untuk menampilkan modal error
 function showModal(message) {
   const modal = document.getElementById("modalAlert");
   modal.querySelector("p").innerText = message;
@@ -72,19 +75,26 @@ function showModal(message) {
   });
 }
 
+// Event listener untuk tombol Google Login
+document.getElementById("googleLogin").addEventListener("click", function () {
+  // Redirect ke endpoint Google Login di backend
+  window.location.href =
+    "https://backend-eight-phi-75.vercel.app/api/auth/google";
+});
+
+// Event listener untuk tombol WhatsApp Login
 document.getElementById("whatsappLogin").addEventListener("click", function () {
   window.location.href = "./../../../src/page/whatsauth/index.html";
 });
 
+// Redirect ke signup.html dengan efek loading
 const loadingOverlay = document.getElementById("loadingOverlay");
-
-// Redirect to signup.html with loading effect
 document
   .getElementById("signupRedirect")
   .addEventListener("click", function (e) {
-    e.preventDefault(); // Prevent default link behavior
-    loadingOverlay.classList.remove("hidden"); // Show loading overlay
+    e.preventDefault(); // Mencegah perilaku default
+    loadingOverlay.classList.remove("hidden"); // Tampilkan overlay loading
     setTimeout(() => {
-      window.location.href = "./signup.html"; // Redirect after delay
-    }, 2000); // 2-second delay for loading effect
+      window.location.href = "./signup.html"; // Redirect setelah 2 detik
+    }, 2000);
   });

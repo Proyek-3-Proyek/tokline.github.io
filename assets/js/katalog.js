@@ -9,7 +9,9 @@ function openOrderModal(button) {
   const image = card.querySelector(".img-box img").src;
   const priceText = card.querySelector("#harga_produk").textContent.trim();
   const price = parseInt(priceText.replace(/\D/g, "")); // Hapus teks non-numerik
-  const stock = card.querySelector("#stock_produk").textContent.trim(); // Misal stok tetap atau bisa tambahkan elemen stok di card
+  const stock = parseInt(
+    card.querySelector("#stock_produk").textContent.replace(/\D/g, "")
+  ); // Ambil stok produk dari card
 
   // Panggil modal dengan data produk
   document.getElementById("modalProductName").textContent = name;
@@ -17,12 +19,13 @@ function openOrderModal(button) {
   document.getElementById("modalProductImage").src = image;
   document.getElementById("modalProductPrice").textContent =
     price.toLocaleString();
-  document.getElementById("modalProductStock").textContent = stock;
+  document.getElementById("modalProductStock").textContent = stock; // Set stok di modal
 
   // Tampilkan modal
   document.getElementById("orderModal").classList.add("show");
   document.querySelector(".background-modal").classList.add("show");
 }
+// ---------------------------------------------------
 
 // Close Modal Function
 function closeOrderModal() {
@@ -51,14 +54,14 @@ function orderProduct() {
   );
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
-  );
-  const size =
-    document.getElementById("modalProductSize").value || "Default Size";
+  ); // Ambil stok dari modal
 
+  // Validasi
   if (quantity > stock) {
     alert("Jumlah produk yang dipesan melebihi stok yang tersedia!");
     return;
   }
+
   if (quantity < 1) {
     alert("Jumlah produk harus minimal 1!");
     return;
@@ -71,7 +74,7 @@ function orderProduct() {
   const productImage = document.getElementById("modalProductImage").src;
 
   // Validasi data
-  if (!productName || !productPrice || !quantity || !size || !productImage) {
+  if (!productName || !productPrice || !quantity || !productImage) {
     alert("Data pemesanan tidak lengkap!");
     return;
   }
@@ -84,7 +87,6 @@ function orderProduct() {
   url.searchParams.set("name", productName);
   url.searchParams.set("price", productPrice);
   url.searchParams.set("quantity", quantity);
-  url.searchParams.set("size", size);
   url.searchParams.set("image", productImage);
 
   window.location.href = url.toString();
@@ -134,24 +136,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     produkList.forEach((produk) => {
       const card = `
-              <div class="card" style="--clr: #009688">
-                  <div class="img-box">
-                      <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${produk.gambar}" width="100" height="100" />
-                  </div>
-                  <div class="content">
-                      <h2 id="nama_produk" class="pt-3">${produk.nama}</h2>
-                      <p id="deskrip_produk" class="p-3">${produk.deskripsi}</p>
-                      <div class="harstok pb-5">
-                          <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.harga}</p>
-                      </div>
-                      <div class="stock pb-5">
-                          <p id="stock_produk" class="text-sky-400">Stok: ${produk.qty}</p>
-                      </div>
-                      <button class="button-buy" onclick="openOrderModal(this)">
-                          Beli
-                      </button>
-                  </div>
-              </div>`;
+        <div class="card" style="--clr: #009688">
+          <div class="img-box">
+            <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${produk.gambar}" width="100" height="100" />
+          </div>
+          <div class="content">
+            <h2 id="nama_produk" class="pt-3">${produk.nama}</h2>
+            <p id="deskrip_produk" class="p-3">${produk.deskripsi}</p>
+            <div class="harstok pb-5">
+              <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.harga}</p>
+            </div>
+            <div class="stock pb-5">
+              <p id="stock_produk" class="text-sky-400">Stok: ${produk.qty}</p> <!-- Menampilkan stok di card -->
+            </div>
+            <button class="button-buy" onclick="openOrderModal(this)">
+              Beli
+            </button>
+          </div>
+        </div>`;
       container.innerHTML += card;
     });
   } catch (error) {

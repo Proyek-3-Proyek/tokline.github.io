@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("Script login.js dimuat.");
+
   // Login menggunakan email dan password
   document.getElementById("loginButton").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
@@ -56,19 +58,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
+  console.log("URL saat ini:", window.location.href);
+  console.log("Token dari URL:", token);
+
   if (token) {
     console.log("Token ditemukan di URL:", token);
 
     // Simpan token ke localStorage
     try {
       localStorage.setItem("token", token);
-      console.log("Token berhasil disimpan ke localStorage.");
+      console.log(
+        "Token berhasil disimpan ke localStorage:",
+        localStorage.getItem("token")
+      );
 
       // Bersihkan URL dengan redirect manual
-      const baseUrl = window.location.origin + window.location.pathname;
-      window.location.replace(baseUrl); // Gunakan replace untuk membersihkan URL tanpa menambah riwayat
+      setTimeout(() => {
+        const baseUrl = window.location.origin + window.location.pathname;
+        console.log("Mengalihkan ke URL tanpa query:", baseUrl);
+        window.location.replace(baseUrl);
+      }, 100);
     } catch (error) {
-      console.error("Gagal menyimpan token:", error);
+      console.error("Gagal menyimpan token ke localStorage:", error);
     }
 
     // Parse role user dari token

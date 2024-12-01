@@ -89,6 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("token", token);
       alert("Login berhasil dengan Google!");
   
+      // Hapus token dari URL untuk keamanan
+      window.history.replaceState({}, document.title, window.location.pathname);
+  
       // Parse role user dari token
       const userRole = parseJwt(token).role;
   

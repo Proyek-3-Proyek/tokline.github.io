@@ -9,7 +9,7 @@ function openOrderModal(button) {
   const image = card.querySelector(".img-box img").src;
   const priceText = card.querySelector("#harga_produk").textContent.trim();
   const price = parseInt(priceText.replace(/\D/g, "")); // Hapus teks non-numerik
-  const stock = 10; // Misal stok tetap atau bisa tambahkan elemen stok di card
+  const stock = card.querySelector("#stock_produk").textContent.trim(); // Misal stok tetap atau bisa tambahkan elemen stok di card
 
   // Panggil modal dengan data produk
   document.getElementById("modalProductName").textContent = name;
@@ -89,6 +89,8 @@ function orderProduct() {
 
   window.location.href = url.toString();
 }
+
+// ------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".container-card");

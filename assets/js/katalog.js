@@ -54,7 +54,9 @@ function orderProduct() {
   );
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
-  ); // Ambil stok dari modal
+  );
+  const size =
+    document.getElementById("modalProductSize").value || "Default Size"; // Ukuran default jika tidak dipilih
 
   // Validasi
   if (quantity > stock) {
@@ -67,7 +69,7 @@ function orderProduct() {
     return;
   }
 
-  // Ambil detail produk
+  // Ambil detail produk dari modal
   const productName = document.getElementById("modalProductName").textContent;
   const rawPrice = document.getElementById("modalProductPrice").textContent;
   const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
@@ -80,16 +82,16 @@ function orderProduct() {
   }
 
   // Redirect ke halaman beli.html dengan query parameter
-  const url = new URL(
-    "./../../src/page/Beli/index.html",
-    window.location.origin
-  );
-  url.searchParams.set("name", productName);
-  url.searchParams.set("price", productPrice);
-  url.searchParams.set("quantity", quantity);
-  url.searchParams.set("image", productImage);
+  const url =
+    "./../../src/page/Beli/index.html" +
+    `?name=${encodeURIComponent(productName)}` +
+    `&price=${encodeURIComponent(productPrice)}` +
+    `&quantity=${encodeURIComponent(quantity)}` +
+    `&size=${encodeURIComponent(size)}` +
+    `&image=${encodeURIComponent(productImage)}`;
 
-  window.location.href = url.toString();
+  // Mengarahkan ke halaman Beli
+  window.location.href = url;
 }
 
 // ------------------------------------------------------------------------

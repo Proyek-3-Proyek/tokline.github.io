@@ -56,7 +56,8 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       // Redirect ke halaman utama jika menggunakan live server
       // window.location.href = "./../../index.html";
       // Redirect ke halaman utama pada github page
-     window.location.href = "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
+      window.location.href =
+        "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
     } else {
       // Tampilkan pesan error dari backend
       alert(data.message || "Login gagal!");

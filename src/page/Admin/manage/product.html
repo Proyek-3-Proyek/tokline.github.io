@@ -29,11 +29,33 @@
           </div>
           <nav class="mt-4">
             <a
-              href="#"
-              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-white active_sidebar"
+              href="./../dashboard/index.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700 active_sidebar"
+              ><i class="fa-solid fa-house" style="color: #ffffffa7"></i>
+              Dashboard</a
             >
-              <i class="fa-solid fa-shirt mr-2"></i> Kelola Produk
-            </a>
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+            >
+              <i class="fa-solid fa-shirt" style="color: #ffffffa7"></i> Kelola
+              Produk</a
+            >
+            <a
+              href="./transaksi.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+              ><i
+                class="fa-solid fa-money-bill-wave"
+                style="color: #ffffffa7"
+              ></i>
+              Kelola Transaksi</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
+              ><i class="fa-solid fa-credit-card" style="color: #ffffffa7"></i>
+              Metode Pembayaran</a
+            >
           </nav>
         </div>
         <div class="p-4 border-t border-gray-700">
@@ -240,7 +262,7 @@
           const productCard = document.createElement("div");
           productCard.className = "bg-white p-4 rounded-lg shadow-md";
           productCard.innerHTML = `
-            <img src="https://storage.supabase.co/gambar/${
+            <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${
               product.gambar
             }" class="w-full h-40 object-cover rounded mb-4">
             <h3 class="text-lg font-semibold text-gray-700">${product.nama}</h3>

@@ -113,7 +113,8 @@ function updateLoginButton() {
 
     // Jika user adalah admin, arahkan ke dashboard admin
     if (userRole === "admin") {
-      window.location.href = "/src/page/admin/dashboard/index.html";
+      window.location.href =
+        "https://proyek-3-proyek.github.io/tokline.github.io/src/page/admin/dashboard/index.html";
       return;
     }
 
@@ -151,7 +152,9 @@ document.addEventListener("DOMContentLoaded", updateLoginButton);
 
 // Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector("a[href='./src/page/katalog/index.html']");
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/katalog/index.html']"
+  );
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {

@@ -23,52 +23,79 @@
 
 // Handle Google login redirect
 // Event listener untuk tombol Login
-document.getElementById("loginButton").addEventListener("click", async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+document.addEventListener("DOMContentLoaded", () => {
+  // Login menggunakan email dan password
+  document.getElementById("loginButton").addEventListener("click", async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  // Validasi input
-  if (!email || !password) {
-    showModal("Harap isi semua data!");
-    return;
-  }
-
-  try {
-    // Kirim permintaan login ke backend
-    const response = await fetch(
-      "https://backend-eight-phi-75.vercel.app/api/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      // Simpan token ke localStorage
-      localStorage.setItem("token", data.token);
-      alert("Login berhasil!");
-
-      // Redirect berdasarkan role
-      const userRole = parseJwt(data.token).role; // Parse role dari token
-      if (userRole === "admin") {
-        window.location.href =
-          "https://proyek-3-proyek.github.io/tokline.github.io/src/page/Admin/dashboard/index.html";
-      } else if (userRole === "pelanggan") {
-        window.location.href =
-          "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
-      }
-    } else {
-      // Tampilkan pesan error dari backend
-      alert(data.message || "Login gagal!");
+    // Validasi input
+    if (!email || !password) {
+      alert("Harap isi semua data!");
+      return;
     }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Terjadi kesalahan saat mencoba login.");
+
+    try {
+      // Kirim data login ke backend
+      const response = await fetch(
+        "https://backend-eight-phi-75.vercel.app/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Simpan token ke localStorage
+        localStorage.setItem("token", data.token);
+        alert("Login berhasil!");
+
+        // Redirect berdasarkan role
+        const userRole = parseJwt(data.token).role; // Parse role dari token
+        if (userRole === "admin") {
+          window.location.href =
+            "/tokline.github.io/src/page/Admin/dashboard/index.html";
+        } else if (userRole === "pelanggan") {
+          window.location.href = "/tokline.github.io/index.html";
+        }
+      } else {
+        alert(data.message || "Login gagal!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Terjadi kesalahan saat mencoba login.");
+    }
+  });
+
+  // Login menggunakan Google
+  document.getElementById("googleLoginButton").addEventListener("click", () => {
+    // Redirect ke endpoint Google login di backend
+    window.location.href =
+      "https://backend-eight-phi-75.vercel.app/api/auth/google";
+  });
+
+  // Ambil token dari URL jika ada (callback Google login)
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (token) {
+    // Simpan token ke localStorage
+    localStorage.setItem("token", token);
+    alert("Login berhasil dengan Google!");
+
+    // Redirect berdasarkan role
+    const userRole = parseJwt(token).role; // Parse role dari token
+    if (userRole === "admin") {
+      window.location.href =
+        "/tokline.github.io/src/page/Admin/dashboard/index.html";
+    } else if (userRole === "pelanggan") {
+      window.location.href = "/tokline.github.io/index.html";
+    }
   }
 });
 

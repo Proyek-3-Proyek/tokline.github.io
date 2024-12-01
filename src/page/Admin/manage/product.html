@@ -72,6 +72,19 @@
       <main class="flex-1 ml-64 p-6 overflow-y-auto">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Produk</h1>
 
+        <!-- Filter Kategori -->
+        <div class="mb-6 flex items-center">
+          <label for="categoryFilter" class="text-gray-700 mr-4"
+            >Filter Kategori:</label
+          >
+          <select
+            id="categoryFilter"
+            class="border border-gray-300 rounded px-3 py-2"
+          >
+            <option value="">Semua Kategori</option>
+          </select>
+        </div>
+
         <!-- Tombol Tambah Produk -->
         <button
           id="openModal"
@@ -113,6 +126,18 @@
                   placeholder="Deskripsi Produk"
                   required
                 ></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Kategori Produk</label
+                >
+                <select
+                  id="productCategory"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  required
+                >
+                  <option value="">Pilih Kategori</option>
+                </select>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700"
@@ -182,19 +207,49 @@
       const closeModal = document.getElementById("closeModal");
       const productForm = document.getElementById("productForm");
       const modalTitle = document.getElementById("modalTitle");
+      const categoryFilter = document.getElementById("categoryFilter");
+      const productCategory = document.getElementById("productCategory");
       const token = localStorage.getItem("token");
 
-      const BASE_URL = "https://backend-eight-phi-75.vercel.app/api/produk";
+      const BASE_URL = "https://backend-eight-phi-75.vercel.app/api";
 
       // Fetch Produk
-      async function fetchProducts() {
+      async function fetchProducts(category = "") {
         try {
-          const response = await fetch(`${BASE_URL}/all`, {
+          const response = await fetch(`${BASE_URL}/produk/all`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (!response.ok) throw new Error("Gagal mengambil data produk");
           const products = await response.json();
-          renderProducts(products);
+          const filteredProducts = category
+            ? products.filter(
+                (product) => product.kategori.jenis_kategori === category
+              )
+            : products;
+          renderProducts(filteredProducts);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      // Fetch Kategori
+      async function fetchCategories() {
+        try {
+          const response = await fetch(`${BASE_URL}/kategori/all`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!response.ok) throw new Error("Gagal mengambil data kategori");
+          const categories = await response.json();
+
+          // Isi Dropdown Filter dan Tambah Kategori
+          categoryFilter.innerHTML = '<option value="">Semua Kategori</option>';
+          productCategory.innerHTML =
+            '<option value="">Pilih Kategori</option>';
+          categories.forEach((category) => {
+            const option = `<option value="${category.jenis_kategori}">${category.jenis_kategori}</option>`;
+            categoryFilter.innerHTML += option;
+            productCategory.innerHTML += option;
+          });
         } catch (error) {
           console.error(error);
         }
@@ -207,11 +262,14 @@
           const productCard = document.createElement("div");
           productCard.className = "bg-white p-4 rounded-lg shadow-md";
           productCard.innerHTML = `
-            <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${
+            <img src="https://storage.supabase.io/gambar/${
               product.gambar
             }" class="w-full h-40 object-cover rounded mb-4">
             <h3 class="text-lg font-semibold text-gray-700">${product.nama}</h3>
             <p class="text-sm text-gray-500">${product.deskripsi}</p>
+            <p class="text-gray-500">Kategori: ${
+              product.kategori.jenis_kategori
+            }</p>
             <p class="text-gray-500">Harga: Rp${product.harga.toLocaleString()}</p>
             <p class="text-gray-500">Stok: ${product.qty}</p>
             <div class="mt-4 space-x-2">
@@ -237,6 +295,7 @@
           "deskripsi",
           document.getElementById("productDescription").value
         );
+        formData.append("nama_kategori", productCategory.value);
         formData.append("harga", document.getElementById("productPrice").value);
         formData.append("qty", document.getElementById("productStock").value);
         if (document.getElementById("productImage").files[0]) {
@@ -248,7 +307,9 @@
 
         try {
           const response = await fetch(
-            id ? `${BASE_URL}/update/${id}` : `${BASE_URL}/create`,
+            id
+              ? `${BASE_URL}/produk/update/${id}`
+              : `${BASE_URL}/produk/create`,
             {
               method: id ? "PUT" : "POST",
               headers: { Authorization: `Bearer ${token}` },
@@ -264,44 +325,7 @@
         }
       });
 
-      // Hapus Produk
-      async function deleteProduct(id) {
-        if (!confirm("Yakin ingin menghapus produk ini?")) return;
-        try {
-          const response = await fetch(`${BASE_URL}/delete/${id}`, {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (!response.ok) throw new Error("Gagal menghapus produk");
-          alert("Produk berhasil dihapus");
-          fetchProducts();
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      // Edit Produk
-      async function editProduct(id) {
-        try {
-          const response = await fetch(`${BASE_URL}/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (!response.ok) throw new Error("Gagal mengambil data produk");
-          const product = await response.json();
-          document.getElementById("productId").value = product.id;
-          document.getElementById("productName").value = product.nama;
-          document.getElementById("productDescription").value =
-            product.deskripsi;
-          document.getElementById("productPrice").value = product.harga;
-          document.getElementById("productStock").value = product.qty;
-          modalTitle.textContent = "Edit Produk";
-          modal.classList.remove("hidden");
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      // Event Listeners
+      // Event Listener Modal
       openModal.addEventListener("click", () => {
         productForm.reset();
         document.getElementById("productId").value = "";
@@ -312,6 +336,7 @@
 
       // Inisialisasi
       fetchProducts();
+      fetchCategories();
     </script>
   </body>
 </html>

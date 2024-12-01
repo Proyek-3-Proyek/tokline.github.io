@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const card = `
               <div class="card" style="--clr: #009688">
                   <div class="img-box">
-                      <img src="https://your-supabase-url.storage.example.com/${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
+                      <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${produk.gambar}" width="100" height="100" />
                   </div>
                   <div class="content">
                       <h2 id="nama_produk" class="pt-3">${produk.nama}</h2>

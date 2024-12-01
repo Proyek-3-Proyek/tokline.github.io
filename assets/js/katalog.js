@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     alert("Anda belum login. Silakan login terlebih dahulu.");
     // Redirect ke halaman login jika token tidak ditemukan
     window.location.href =
-      "https://proyek-3-proyek.github.io/tokline.github.io/auth/login.html";
+      "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
     return;
   }
 

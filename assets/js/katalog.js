@@ -137,3 +137,62 @@ function orderProduct(productId) {
 
 // Panggil fungsi fetch saat halaman dimuat
 fetchAllProduk();
+
+// logout botton
+function checkLoginStatus() {
+  // Cek status login dari localStorage
+  const token = localStorage.getItem("token"); // Simpan token login di localStorage
+  return token !== null; // Jika token ada, anggap user sudah login
+}
+
+function updateLoginButton() {
+  const profileContainer = document.querySelector(".profil");
+
+  if (checkLoginStatus()) {
+    // Jika user sudah login, tampilkan tombol Logout
+    profileContainer.innerHTML = `
+      <button
+        id="logoutButton"
+        class="pr-7 pl-7 pb-2 pt-2 bg-red-500 hover:bg-red-700 rounded-3xl text-white"
+      >
+        Logout
+      </button>
+    `;
+
+    // Tambahkan event listener untuk tombol Logout
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      localStorage.removeItem("token"); // Hapus token dari localStorage
+      alert("Anda telah logout.");
+      updateLoginButton(); // Perbarui tampilan tombol
+    });
+  } else {
+    // Jika user belum login, tampilkan tombol Login
+    profileContainer.innerHTML = `
+      <a
+        href="./src/page/auth/login.html"
+        class="pr-7 pl-7 pb-2 pt-2 bg-sky-500 hover:bg-sky-700 rounded-3xl text-white"
+      >
+        Login
+      </a>
+    `;
+  }
+}
+
+// Panggil fungsi saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", updateLoginButton);
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Pastikan elemen ditemukan sebelum menambahkan event listener
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/katalog/index.html']"
+  );
+
+  if (belanjaLink) {
+    belanjaLink.addEventListener("click", function (event) {
+      event.preventDefault(); // Mencegah perilaku default link
+      window.location.href = "./src/page/katalog/index.html"; // Arahkan ke halaman belanja
+    });
+  } else {
+    console.log("Elemen Belanja tidak ditemukan di halaman.");
+  }
+});

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Validasi input
     if (!email || !password) {
-      alert("Harap isi semua data!");
+      showModal("Harap isi semua data!");
       return;
     }
 
@@ -64,11 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "/tokline.github.io/index.html";
         }
       } else {
-        alert(data.message || "Login gagal!");
+        showModal(data.message || "Login gagal!");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Terjadi kesalahan saat mencoba login.");
+      showModal("Terjadi kesalahan saat mencoba login.");
     }
   });
 
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "https://backend-eight-phi-75.vercel.app/api/auth/google";
   });
 
-  // Ambil token dari URL jika ada (callback Google login)
+  // Tangani callback Google login
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
@@ -123,13 +123,6 @@ function showModal(message) {
     modal.classList.add("hidden");
   });
 }
-
-// Event listener untuk tombol Google Login
-document.getElementById("googleLogin").addEventListener("click", function () {
-  // Redirect ke endpoint Google Login di backend
-  window.location.href =
-    "https://backend-eight-phi-75.vercel.app/api/auth/google";
-});
 
 // Event listener untuk tombol WhatsApp Login
 document.getElementById("whatsappLogin").addEventListener("click", function () {

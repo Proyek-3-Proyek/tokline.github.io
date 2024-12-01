@@ -88,8 +88,10 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("token", token);
     alert("Login berhasil dengan Google!");
 
+    // Parse role user dari token
+    const userRole = parseJwt(token).role;
+
     // Redirect berdasarkan role
-    const userRole = parseJwt(token).role; // Parse role dari token
     if (userRole === "admin") {
       window.location.href =
         "/tokline.github.io/src/page/Admin/dashboard/index.html";

@@ -1,38 +1,3 @@
-(function ($) {
-  "use strict";
-
-  var fullHeight = function () {
-    $(".js-fullheight").css("height", $(window).height());
-    $(window).resize(function () {
-      $(".js-fullheight").css("height", $(window).height());
-    });
-  };
-  fullHeight();
-})(jQuery);
-
-const toggleModal = () => document.body.classList.toggle("open");
-
-function openNav() {
-  document.getElementById("mySidebar").style.width = "250px";
-}
-
-function closeNav() {
-  document.getElementById("mySidebar").style.width = "0";
-}
-
-$(".toggle").click(function () {
-  $(this).toggleClass("on");
-  $(".filter").slideToggle();
-});
-
-function filterItems(category) {
-  console.log("Selected Category: " + category);
-}
-
-function filterItemsBySize(size) {
-  console.log("Selected Size: " + size);
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   // Toggle menu on small screens
   const menuButton = document.querySelector(".menu-btn");

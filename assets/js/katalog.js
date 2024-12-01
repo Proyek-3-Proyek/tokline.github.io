@@ -52,7 +52,8 @@ function orderProduct() {
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
   );
-  const size = document.getElementById("modalProductSize").value || "Default Size";
+  const size =
+    document.getElementById("modalProductSize").value || "Default Size";
 
   if (quantity > stock) {
     alert("Jumlah produk yang dipesan melebihi stok yang tersedia!");
@@ -88,3 +89,51 @@ function orderProduct() {
 
   window.location.href = url.toString();
 }
+
+// Ambil elemen untuk menampung kartu produk
+const containerCard = document.querySelector(".container-card");
+
+// Fungsi untuk mendapatkan semua produk
+async function fetchAllProduk() {
+  try {
+    const response = await fetch(
+      "https://backend-eight-phi-75.vercel.app/api/kategori/all"
+    );
+    if (!response.ok) throw new Error("Failed to fetch data");
+
+    const data = await response.json();
+
+    // Clear existing content
+    containerCard.innerHTML = "";
+
+    // Render produk ke HTML
+    data.forEach((produk) => {
+      const card = `
+                <div class="card" style="--clr: #009688">
+                    <div class="img-box">
+                        <img src="${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
+                    </div>
+                    <div class="content">
+                        <h2>${produk.nama}</h2>
+                        <p>${produk.deskripsi}</p>
+                        <div class="harstok">
+                            <p>Harga: Rp. ${produk.harga}</p>
+                        </div>
+                        <button class="button-buy" onclick="orderProduct('${produk.id}')">Beli</button>
+                    </div>
+                </div>
+            `;
+      containerCard.innerHTML += card;
+    });
+  } catch (error) {
+    console.error("Error fetching produk:", error);
+  }
+}
+
+// Fungsi untuk memesan produk
+function orderProduct(productId) {
+  alert(`Pesanan untuk produk dengan ID: ${productId} berhasil dibuat!`);
+}
+
+// Panggil fungsi fetch saat halaman dimuat
+fetchAllProduk();

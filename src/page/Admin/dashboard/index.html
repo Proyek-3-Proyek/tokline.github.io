@@ -36,7 +36,7 @@
               href="./../manage/product.html"
               class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 focus:bg-gray-700"
             >
-              <i class="fa-solid fa-shirt" style="color: #ffffffa7"></i>  Kelola
+              <i class="fa-solid fa-shirt" style="color: #ffffffa7"></i> Kelola
               Produk</a
             >
             <a
@@ -136,22 +136,37 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // Periksa token di localStorage
         const token = localStorage.getItem("token");
 
         if (!token) {
           alert("Anda tidak memiliki akses. Silakan login sebagai admin.");
-          window.location.href = "/src/page/auth/login.html";
+          window.location.href =
+            "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
           return;
         }
 
+        // Cek role user dari token JWT
         const userRole = parseJwt(token).role;
         if (userRole !== "admin") {
           alert("Anda tidak memiliki akses ke halaman ini.");
           window.location.href = "/index.html";
         }
+
+        // Tambahkan event listener untuk tombol logout
+        const logoutButton = document.getElementById("logoutButton");
+        logoutButton.addEventListener("click", () => {
+          // Hapus token dari localStorage
+          localStorage.removeItem("token");
+
+          // Tampilkan pesan dan redirect ke halaman login
+          alert("Anda telah logout.");
+          window.location.href =
+            "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+        });
       });
 
-      // Fungsi parseJwt
+      // Fungsi parseJwt untuk mem-parse token JWT
       function parseJwt(token) {
         const base64Url = token.split(".")[1];
         const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

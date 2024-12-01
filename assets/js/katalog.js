@@ -90,82 +90,45 @@ function orderProduct() {
   window.location.href = url.toString();
 }
 
-// Ambil elemen untuk menampung kartu produk
-const containerCard = document.querySelector(".container-card");
-
-// Fungsi untuk mendapatkan semua produk
-// Fungsi untuk mendapatkan token dari localStorage
-function getToken() {
-  return localStorage.getItem("token");
-}
-
-// Fungsi untuk mengambil semua produk
-async function fetchAllProduk() {
-  const token = getToken(); // Ambil token dari localStorage
-
-  if (!token) {
-    console.error("Token tidak tersedia. Harap login terlebih dahulu.");
-    alert("Anda harus login terlebih dahulu.");
-    return;
-  }
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.querySelector(".container-card");
 
   try {
     const response = await fetch(
-      "https://backend-eight-phi-75.vercel.app/api/kategori/all",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
+      "https://backend-eight-phi-75.vercel.app/api/produk/all"
     );
+    if (!response.ok) throw new Error("Gagal mengambil data produk");
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        alert("Sesi login telah habis. Silakan login kembali.");
-        // Redirect ke halaman login
-        window.location.href = "./login.html";
-      }
-      throw new Error("Failed to fetch data");
-    }
+    const produkList = await response.json();
 
-    const data = await response.json();
+    container.innerHTML = ""; // Kosongkan container sebelum mengisi
 
-    // Render produk ke halaman
-    renderProduk(data);
-  } catch (error) {
-    console.error("Error fetching produk:", error);
-  }
-}
-
-// Fungsi untuk merender produk
-function renderProduk(data) {
-  const containerCard = document.querySelector(".container-card");
-  containerCard.innerHTML = ""; // Bersihkan kontainer sebelum menampilkan data baru
-
-  data.forEach((produk) => {
-    const card = `
-          <div class="card" style="--clr: #009688">
-              <div class="img-box">
-                  <img src="${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
-              </div>
-              <div class="content">
-                  <h2>${produk.nama}</h2>
-                  <p>${produk.deskripsi}</p>
-                  <div class="harstok">
-                      <p>Harga: Rp. ${produk.harga}</p>
+    produkList.forEach((produk) => {
+      const card = `
+              <div class="card" style="--clr: #009688">
+                  <div class="img-box">
+                      <img src="https://your-supabase-url.storage.example.com/${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
                   </div>
-                  <button class="button-buy" onclick="orderProduct('${produk.id}')">Beli</button>
-              </div>
-          </div>
-      `;
-    containerCard.innerHTML += card;
-  });
-}
+                  <div class="content">
+                      <h2 id="nama_produk" class="pt-3">${produk.nama}</h2>
+                      <p id="deskrip_produk" class="p-3">${produk.deskripsi}</p>
+                      <div class="harstok pb-5">
+                          <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.harga}</p>
+                      </div>
+                      <button class="button-buy" onclick="openOrderModal(this)">
+                          Beli
+                      </button>
+                  </div>
+              </div>`;
+      container.innerHTML += card;
+    });
+  } catch (error) {
+    console.error(error);
+    container.innerHTML = `<p>Gagal memuat produk. Coba lagi nanti.</p>`;
+  }
+});
 
-// Panggil fungsi fetch saat halaman dimuat
-fetchAllProduk();
+// ------------------------------------------------------------------------------------
 
 // logout botton
 function checkLoginStatus() {

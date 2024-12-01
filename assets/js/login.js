@@ -1,28 +1,3 @@
-// const modal = document.getElementById("modalAlert");
-// const closeModal = document.getElementById("closeModal");
-
-// document.getElementById("loginButton").addEventListener("click", function () {
-//   const email = document.getElementById("email").value;
-//   const username = document.getElementById("username").value;
-//   const password = document.getElementById("password").value;
-
-//   if (!email || !username || !password) {
-//     modal.classList.remove("hidden"); // Show the modal
-//     return;
-//   }
-
-//   // Simulasi login (dapat diganti dengan API backend)
-//   console.log({ email, username, password });
-//   alert("Login berhasil! Anda akan diarahkan ke dashboard.");
-//   window.location.href = "./dashboard.html";
-// });
-
-// closeModal.addEventListener("click", function () {
-//   modal.classList.add("hidden"); // Hide the modal
-// });// File: login.js
-
-// Handle Google login redirect
-// Event listener untuk tombol Login
 document.addEventListener("DOMContentLoaded", () => {
   // Login menggunakan email dan password
   document.getElementById("loginButton").addEventListener("click", async () => {
@@ -36,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      // Kirim data login ke backend
       const response = await fetch(
         "https://backend-eight-phi-75.vercel.app/api/auth/login",
         {
@@ -56,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Login berhasil!");
 
         // Redirect berdasarkan role
-        const userRole = parseJwt(data.token).role; // Parse role dari token
+        const userRole = parseJwt(data.token).role;
         if (userRole === "admin") {
           window.location.href =
             "/tokline.github.io/src/page/Admin/dashboard/index.html";
@@ -86,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (token) {
     // Simpan token ke localStorage
     localStorage.setItem("token", token);
-    alert("Login berhasil dengan Google!");
+    console.log("Token berhasil disimpan:", token);
 
     // Hapus token dari URL untuk keamanan
     window.history.replaceState({}, document.title, window.location.pathname);

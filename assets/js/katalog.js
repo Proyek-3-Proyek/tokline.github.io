@@ -94,45 +94,74 @@ function orderProduct() {
 const containerCard = document.querySelector(".container-card");
 
 // Fungsi untuk mendapatkan semua produk
+// Fungsi untuk mendapatkan token dari localStorage
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+// Fungsi untuk mengambil semua produk
 async function fetchAllProduk() {
+  const token = getToken(); // Ambil token dari localStorage
+
+  if (!token) {
+    console.error("Token tidak tersedia. Harap login terlebih dahulu.");
+    alert("Anda harus login terlebih dahulu.");
+    return;
+  }
+
   try {
     const response = await fetch(
-      "https://backend-eight-phi-75.vercel.app/api/kategori/all"
+      "https://backend-eight-phi-75.vercel.app/api/kategori/all",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
-    if (!response.ok) throw new Error("Failed to fetch data");
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        alert("Sesi login telah habis. Silakan login kembali.");
+        // Redirect ke halaman login
+        window.location.href = "./login.html";
+      }
+      throw new Error("Failed to fetch data");
+    }
 
     const data = await response.json();
 
-    // Clear existing content
-    containerCard.innerHTML = "";
-
-    // Render produk ke HTML
-    data.forEach((produk) => {
-      const card = `
-                <div class="card" style="--clr: #009688">
-                    <div class="img-box">
-                        <img src="${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
-                    </div>
-                    <div class="content">
-                        <h2>${produk.nama}</h2>
-                        <p>${produk.deskripsi}</p>
-                        <div class="harstok">
-                            <p>Harga: Rp. ${produk.harga}</p>
-                        </div>
-                        <button class="button-buy" onclick="orderProduct('${produk.id}')">Beli</button>
-                    </div>
-                </div>
-            `;
-      containerCard.innerHTML += card;
-    });
+    // Render produk ke halaman
+    renderProduk(data);
   } catch (error) {
     console.error("Error fetching produk:", error);
   }
 }
 
-// Fungsi untuk memesan produk
-function orderProduct(productId) {
-  alert(`Pesanan untuk produk dengan ID: ${productId} berhasil dibuat!`);
+// Fungsi untuk merender produk
+function renderProduk(data) {
+  const containerCard = document.querySelector(".container-card");
+  containerCard.innerHTML = ""; // Bersihkan kontainer sebelum menampilkan data baru
+
+  data.forEach((produk) => {
+    const card = `
+          <div class="card" style="--clr: #009688">
+              <div class="img-box">
+                  <img src="${produk.gambar}" alt="${produk.nama}" width="100" height="100" />
+              </div>
+              <div class="content">
+                  <h2>${produk.nama}</h2>
+                  <p>${produk.deskripsi}</p>
+                  <div class="harstok">
+                      <p>Harga: Rp. ${produk.harga}</p>
+                  </div>
+                  <button class="button-buy" onclick="orderProduct('${produk.id}')">Beli</button>
+              </div>
+          </div>
+      `;
+    containerCard.innerHTML += card;
+  });
 }
 
 // Panggil fungsi fetch saat halaman dimuat

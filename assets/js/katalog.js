@@ -188,7 +188,7 @@ function updateLoginButton() {
     // Jika user belum login, tampilkan tombol Login
     profileContainer.innerHTML = `
       <a
-        href="./../../src/page/auth/login.html"
+        href="/src/page/auth/login.html"
         class="pr-7 pl-7 pb-2 pt-2 bg-sky-500 hover:bg-sky-700 rounded-3xl text-white"
       >
         Login

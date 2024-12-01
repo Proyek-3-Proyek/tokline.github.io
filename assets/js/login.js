@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Login menggunakan Google
   document.getElementById("googleLoginButton").addEventListener("click", () => {
-    // Redirect ke endpoint Google login di backend
     window.location.href =
       "https://backend-eight-phi-75.vercel.app/api/auth/google";
   });
@@ -58,22 +57,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const token = urlParams.get("token");
 
   if (token) {
-    // Simpan token ke localStorage
-    localStorage.setItem("token", token);
-    console.log("Token berhasil disimpan:", token);
+    console.log("Token ditemukan di URL:", token);
 
-    // Hapus token dari URL untuk keamanan
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // Simpan token ke localStorage
+    try {
+      localStorage.setItem("token", token);
+      console.log("Token berhasil disimpan ke localStorage.");
+    } catch (error) {
+      console.error("Gagal menyimpan token ke localStorage:", error);
+    }
+
+    // Hapus token dari URL
+    try {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      console.log("Token berhasil dihapus dari URL.");
+    } catch (error) {
+      console.error("Gagal menghapus token dari URL:", error);
+    }
 
     // Parse role user dari token
-    const userRole = parseJwt(token).role;
+    try {
+      const userRole = parseJwt(token).role;
 
-    // Redirect berdasarkan role
-    if (userRole === "admin") {
-      window.location.href =
-        "/tokline.github.io/src/page/Admin/dashboard/index.html";
-    } else if (userRole === "pelanggan") {
-      window.location.href = "/tokline.github.io/index.html";
+      // Redirect berdasarkan role
+      if (userRole === "admin") {
+        window.location.href =
+          "/tokline.github.io/src/page/Admin/dashboard/index.html";
+      } else if (userRole === "pelanggan") {
+        window.location.href = "/tokline.github.io/index.html";
+      }
+    } catch (error) {
+      console.error("Gagal mem-parsing token:", error);
     }
   } else {
     console.log("Token tidak ditemukan di URL.");

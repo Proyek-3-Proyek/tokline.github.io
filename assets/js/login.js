@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Tangani callback Google login
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
+  localStorage.setItem("token", token); // Simpan token di local storage untuk penggunaan selanjutnya
 
   if (token) {
     // Simpan token ke localStorage

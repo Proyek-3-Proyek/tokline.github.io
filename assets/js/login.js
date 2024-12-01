@@ -53,7 +53,7 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       localStorage.setItem("token", data.token);
       alert("Login berhasil!");
       // Redirect ke halaman utama
-      window.location.href = "./../../../index.html";
+      window.location.href = "./index.html";
     } else {
       // Tampilkan pesan error dari backend
       alert(data.message || "Login gagal!");

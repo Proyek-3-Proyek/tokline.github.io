@@ -60,12 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Token ditemukan di URL:", token);
 
     // Simpan token ke localStorage
-    localStorage.setItem("token", token);
-    console.log("Token berhasil disimpan ke localStorage.");
+    try {
+      localStorage.setItem("token", token);
+      console.log("Token berhasil disimpan ke localStorage.");
 
-    // Bersihkan URL dengan redirect manual
-    const baseUrl = window.location.origin + window.location.pathname;
-    window.location.href = baseUrl;
+      // Bersihkan URL dengan redirect manual
+      const baseUrl = window.location.origin + window.location.pathname;
+      window.location.replace(baseUrl); // Gunakan replace untuk membersihkan URL tanpa menambah riwayat
+    } catch (error) {
+      console.error("Gagal menyimpan token:", error);
+    }
 
     // Parse role user dari token
     const userRole = parseJwt(token).role;

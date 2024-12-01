@@ -4,11 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./../../../dist/styles.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
 
     <title>Signup - Shoju</title>
   </head>
-  <body class="bg-gray-50 flex items-center justify-center h-screen body_primary">
+  <body
+    class="bg-gray-50 flex items-center justify-center h-screen body_primary"
+  >
     <div
       class="max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col md:flex-row"
     >
@@ -60,6 +65,18 @@
               class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+          <div>
+            <label for="no_hp" class="block text-sm font-medium text-gray-700"
+              >Nomor HP</label
+            >
+            <input
+              type="tel"
+              id="no_hp"
+              placeholder="Nomor HP"
+              class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
           <div>
             <label
               for="password"
@@ -127,33 +144,76 @@
 
       document
         .getElementById("signupButton")
-        .addEventListener("click", function () {
+        .addEventListener("click", async function () {
           const email = document.getElementById("email").value;
           const username = document.getElementById("username").value;
           const password = document.getElementById("password").value;
           const confirmPassword =
             document.getElementById("confirmPassword").value;
+          const noHp = document.getElementById("no_hp").value;
 
-          if (!email || !username || !password || !confirmPassword) {
+          // Validasi input
+          if (!email || !username || !password || !confirmPassword || !noHp) {
             modalMessage.textContent = "Harap isi semua data!";
-            modal.classList.remove("hidden"); // Show the modal
+            modal.classList.remove("hidden"); // Tampilkan modal error
             return;
           }
 
           if (password !== confirmPassword) {
             modalMessage.textContent = "Password tidak sesuai!";
-            modal.classList.remove("hidden"); // Show the modal
+            modal.classList.remove("hidden"); // Tampilkan modal error
             return;
           }
 
-          // Simulasi signup (dapat diganti dengan API backend)
-          console.log({ email, username, password });
-          alert("Pendaftaran berhasil! Anda akan diarahkan ke halaman login.");
-          window.location.href = "./login.html";
+          // Validasi format nomor HP (opsional)
+          const phoneRegex = /^[0-9]{10,13}$/; // Format: hanya angka, panjang 10-13 karakter
+          if (!phoneRegex.test(noHp)) {
+            modalMessage.textContent =
+              "Nomor HP tidak valid! Gunakan format angka 10-13 digit.";
+            modal.classList.remove("hidden"); // Tampilkan modal error
+            return;
+          }
+
+          try {
+            // Kirim permintaan POST ke endpoint register backend
+            const response = await fetch(
+              "https://backend-eight-phi-75.vercel.app/api/auth/register",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email,
+                  nama: username, // Sesuaikan dengan backend yang menerima "nama"
+                  password,
+                  no_hp: noHp, // Kirim nomor HP yang dimasukkan user
+                }),
+              }
+            );
+
+            const result = await response.json();
+
+            if (response.ok) {
+              // Jika berhasil, alihkan ke halaman login
+              alert(
+                "Pendaftaran berhasil! Anda akan diarahkan ke halaman login."
+              );
+              window.location.href = "./login.html";
+            } else {
+              // Jika gagal, tampilkan pesan error dari backend
+              modalMessage.textContent = result.message || "Pendaftaran gagal!";
+              modal.classList.remove("hidden"); // Tampilkan modal error
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            modalMessage.textContent = "Terjadi kesalahan pada server.";
+            modal.classList.remove("hidden"); // Tampilkan modal error
+          }
         });
 
       closeModal.addEventListener("click", function () {
-        modal.classList.add("hidden"); // Hide the modal
+        modal.classList.add("hidden"); // Sembunyikan modal error
       });
     </script>
   </body>

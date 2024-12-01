@@ -83,7 +83,7 @@ function orderProduct() {
 
   // Redirect ke halaman beli.html dengan query parameter
   const url =
-    "./../../src/page/Beli/index.html" +
+    "./../../page/Beli/index.html" +
     `?name=${encodeURIComponent(productName)}` +
     `&price=${encodeURIComponent(productPrice)}` +
     `&quantity=${encodeURIComponent(quantity)}` +

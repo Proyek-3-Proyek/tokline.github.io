@@ -93,14 +93,41 @@ function orderProduct() {
 document.addEventListener("DOMContentLoaded", async () => {
   const container = document.querySelector(".container-card");
 
+  // Ambil token dari localStorage
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Anda belum login. Silakan login terlebih dahulu.");
+    // Redirect ke halaman login jika token tidak ditemukan
+    window.location.href =
+      "https://proyek-3-proyek.github.io/tokline.github.io/auth/login.html";
+    return;
+  }
+
   try {
     const response = await fetch(
-      "https://backend-eight-phi-75.vercel.app/api/produk/all"
+      "https://backend-eight-phi-75.vercel.app/api/produk/all",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
     );
-    if (!response.ok) throw new Error("Gagal mengambil data produk");
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        alert("Sesi login Anda telah berakhir. Silakan login kembali.");
+        localStorage.removeItem("token"); // Hapus token yang sudah tidak valid
+        window.location.href =
+          "https://proyek-3-proyek.github.io/tokline.github.io/auth/login.html";
+        return;
+      }
+      throw new Error("Gagal mengambil data produk");
+    }
 
     const produkList = await response.json();
-
     container.innerHTML = ""; // Kosongkan container sebelum mengisi
 
     produkList.forEach((produk) => {

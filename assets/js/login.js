@@ -60,34 +60,22 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Token ditemukan di URL:", token);
 
     // Simpan token ke localStorage
-    try {
-      localStorage.setItem("token", token);
-      console.log("Token berhasil disimpan ke localStorage.");
-    } catch (error) {
-      console.error("Gagal menyimpan token ke localStorage:", error);
-    }
+    localStorage.setItem("token", token);
+    console.log("Token berhasil disimpan ke localStorage.");
 
-    // Hapus token dari URL
-    try {
-      window.history.replaceState({}, document.title, window.location.pathname);
-      console.log("Token berhasil dihapus dari URL.");
-    } catch (error) {
-      console.error("Gagal menghapus token dari URL:", error);
-    }
+    // Bersihkan URL dengan redirect manual
+    const baseUrl = window.location.origin + window.location.pathname;
+    window.location.href = baseUrl;
 
     // Parse role user dari token
-    try {
-      const userRole = parseJwt(token).role;
+    const userRole = parseJwt(token).role;
 
-      // Redirect berdasarkan role
-      if (userRole === "admin") {
-        window.location.href =
-          "/tokline.github.io/src/page/Admin/dashboard/index.html";
-      } else if (userRole === "pelanggan") {
-        window.location.href = "/tokline.github.io/index.html";
-      }
-    } catch (error) {
-      console.error("Gagal mem-parsing token:", error);
+    // Redirect berdasarkan role
+    if (userRole === "admin") {
+      window.location.href =
+        "/tokline.github.io/src/page/Admin/dashboard/index.html";
+    } else if (userRole === "pelanggan") {
+      window.location.href = "/tokline.github.io/index.html";
     }
   } else {
     console.log("Token tidak ditemukan di URL.");

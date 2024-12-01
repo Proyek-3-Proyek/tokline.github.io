@@ -142,6 +142,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                       <div class="harstok pb-5">
                           <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.harga}</p>
                       </div>
+                      <div class="harstok pb-5">
+                          <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.qty}</p>
+                      </div>
                       <button class="button-buy" onclick="openOrderModal(this)">
                           Beli
                       </button>

@@ -53,11 +53,14 @@ document.getElementById("loginButton").addEventListener("click", async () => {
       localStorage.setItem("token", data.token);
       alert("Login berhasil!");
 
-      // Redirect ke halaman utama jika menggunakan live server
-      // window.location.href = "./../../index.html";
-      // Redirect ke halaman utama pada github page
-      window.location.href =
-        "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
+      // Redirect berdasarkan role
+      const userRole = parseJwt(data.token).role; // Parse role dari token
+      if (userRole === "admin") {
+        window.location.href = "/src/page/admin/dashboard/index.html";
+      } else if (userRole === "pelanggan") {
+        window.location.href =
+          "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
+      }
     } else {
       // Tampilkan pesan error dari backend
       alert(data.message || "Login gagal!");
@@ -67,6 +70,20 @@ document.getElementById("loginButton").addEventListener("click", async () => {
     alert("Terjadi kesalahan saat mencoba login.");
   }
 });
+
+// Fungsi untuk mem-parse JWT
+function parseJwt(token) {
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`)
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
 
 // Fungsi untuk menampilkan modal error
 function showModal(message) {

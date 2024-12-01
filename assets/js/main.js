@@ -83,18 +83,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // File: main.js
 
-// Simulasikan fungsi login/logout untuk testing
+// Fungsi untuk memeriksa status login
 function checkLoginStatus() {
-  // Cek status login dari localStorage
-  const token = localStorage.getItem("token"); // Simpan token login di localStorage
+  const token = localStorage.getItem("token");
   return token !== null; // Jika token ada, anggap user sudah login
 }
 
+// Fungsi untuk mem-parse JWT
+function parseJwt(token) {
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`)
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+
+// Fungsi untuk memperbarui tombol login/logout
 function updateLoginButton() {
   const profileContainer = document.querySelector(".profil");
 
   if (checkLoginStatus()) {
-    // Jika user sudah login, tampilkan tombol Logout
+    const token = localStorage.getItem("token");
+    const userRole = parseJwt(token).role;
+
+    // Jika user adalah admin, arahkan ke dashboard admin
+    if (userRole === "admin") {
+      window.location.href = "/src/page/admin/dashboard/index.html";
+      return;
+    }
+
+    // Jika user adalah pelanggan, tampilkan tombol Logout
     profileContainer.innerHTML = `
       <button
         id="logoutButton"
@@ -126,11 +149,9 @@ function updateLoginButton() {
 // Panggil fungsi saat halaman selesai dimuat
 document.addEventListener("DOMContentLoaded", updateLoginButton);
 
+// Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  // Pastikan elemen ditemukan sebelum menambahkan event listener
-  const belanjaLink = document.querySelector(
-    "a[href='./src/page/katalog/index.html']"
-  );
+  const belanjaLink = document.querySelector("a[href='./src/page/katalog/index.html']");
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {

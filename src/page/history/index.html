@@ -57,70 +57,59 @@
         <i class="fa-solid fa-bars"></i>
       </div>
     </nav>
-    <div class="max-w-4xl mx-auto p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">Riwayat Pesanan</h2>
 
-      <div class="bg-white shadow rounded-lg">
+    <div class="max-w-6xl mx-auto p-6">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Pesanan</h2>
+
+      <div class="bg-white shadow-md rounded-lg">
         <!-- Header -->
-        <div class="flex items-center justify-between px-6 py-4 border-b">
-          <h3 class="text-lg font-semibold text-gray-700">Detail Pesanan</h3>
-          <button
-            id="refreshButton"
-            class="text-sm text-blue-500 hover:underline flex items-center"
-          >
-            <i class="fas fa-sync-alt mr-2"></i> Refresh
-          </button>
+        <div
+          class="grid grid-cols-6 text-sm font-semibold text-gray-600 bg-gray-100 p-4 border-b"
+        >
+          <div>Tanggal & Waktu</div>
+          <div>Order ID</div>
+          <div>Jenis Transaksi</div>
+          <div>Channel</div>
+          <div>Status</div>
+          <div>Nilai</div>
         </div>
 
-        <!-- Content -->
-        <div id="orderList" class="divide-y divide-gray-200">
-          <!-- Item 1 -->
-          <div class="px-6 py-4 hover:bg-gray-50">
-            <p class="text-sm text-gray-600">
-              <i class="fas fa-calendar-alt text-blue-500 mr-2"></i> 02 Des
-              2024, 11:05
-            </p>
-            <p class="text-sm font-medium text-gray-800 truncate">
-              Order ID: TX-jHcP-TX-LOntUW...
-            </p>
-            <p class="text-sm text-gray-600">
-              Channel: <span class="text-gray-800 font-semibold">QRIS</span>
-            </p>
-            <p class="text-sm text-gray-600">
-              Nilai: <span class="text-gray-800 font-semibold">Rp5.000</span>
-            </p>
-            <p class="text-sm text-gray-600">
-              Status:
-              <span
-                class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-1 rounded-full"
-                >Kedaluwarsa</span
-              >
-            </p>
+        <!-- Data Row -->
+        <div
+          class="grid grid-cols-6 text-sm text-gray-800 border-b p-4 items-center hover:bg-gray-50"
+        >
+          <div>02 Des 2024, 11:05</div>
+          <div class="truncate" title="TX-jHcP-TX-LOntUW...">
+            TX-jHcP-TX-LOntUW...
           </div>
+          <div>Pembayaran</div>
+          <div>QRIS</div>
+          <div>
+            <span
+              class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-1 rounded-full"
+              >Kedaluwarsa</span
+            >
+          </div>
+          <div>Rp5.000</div>
+        </div>
 
-          <!-- Item 2 (Contoh Data Tambahan) -->
-          <div class="px-6 py-4 hover:bg-gray-50">
-            <p class="text-sm text-gray-600">
-              <i class="fas fa-calendar-alt text-blue-500 mr-2"></i> 01 Des
-              2024, 14:25
-            </p>
-            <p class="text-sm font-medium text-gray-800 truncate">
-              Order ID: TX-kpXw-LMftOp...
-            </p>
-            <p class="text-sm text-gray-600">
-              Channel: <span class="text-gray-800 font-semibold">QRIS</span>
-            </p>
-            <p class="text-sm text-gray-600">
-              Nilai: <span class="text-gray-800 font-semibold">Rp10.000</span>
-            </p>
-            <p class="text-sm text-gray-600">
-              Status:
-              <span
-                class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full"
-                >Berhasil</span
-              >
-            </p>
+        <!-- Data Row (Contoh tambahan untuk variasi data) -->
+        <div
+          class="grid grid-cols-6 text-sm text-gray-800 border-b p-4 items-center hover:bg-gray-50"
+        >
+          <div>01 Des 2024, 14:25</div>
+          <div class="truncate" title="TX-kpXw-LMftOp...">
+            TX-kpXw-LMftOp...
           </div>
+          <div>Pembayaran</div>
+          <div>QRIS</div>
+          <div>
+            <span
+              class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full"
+              >Berhasil</span
+            >
+          </div>
+          <div>Rp10.000</div>
         </div>
       </div>
     </div>

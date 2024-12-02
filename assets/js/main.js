@@ -79,14 +79,46 @@ document.addEventListener("DOMContentLoaded", () => {
       backToTopButton.style.display = "none";
     }
   });
-});
 
-// File: main.js
+  // Tangani token dari URL jika ada
+  handleTokenFromUrl();
+
+  // Perbarui tombol login/logout berdasarkan status login
+  updateLoginButton();
+});
 
 // Fungsi untuk memeriksa status login
 function checkLoginStatus() {
   const token = localStorage.getItem("token");
   return token !== null; // Jika token ada, anggap user sudah login
+}
+
+// Fungsi untuk memproses token dari URL
+function handleTokenFromUrl() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (token) {
+    console.log("Token ditemukan di URL:", token);
+
+    try {
+      // Simpan token ke localStorage
+      localStorage.setItem("token", token);
+      console.log(
+        "Token berhasil disimpan ke localStorage:",
+        localStorage.getItem("token")
+      );
+    } catch (error) {
+      console.error("Gagal menyimpan token:", error);
+    } finally {
+      // Bersihkan query string dari URL
+      const baseUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, baseUrl);
+      console.log("Query string dihapus, URL sekarang:", baseUrl);
+    }
+  } else {
+    console.log("Token tidak ditemukan di URL.");
+  }
 }
 
 // Fungsi untuk mem-parse JWT
@@ -146,24 +178,3 @@ function updateLoginButton() {
     `;
   }
 }
-
-// Panggil fungsi saat halaman selesai dimuat
-document.addEventListener("DOMContentLoaded", updateLoginButton);
-
-// Navigasi ke halaman belanja
-document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector(
-    "a[href='./src/page/katalog/index.html']"
-  );
-
-  if (belanjaLink) {
-    belanjaLink.addEventListener("click", function (event) {
-      event.preventDefault(); // Mencegah perilaku default link
-      window.location.href = "./src/page/katalog/index.html"; // Arahkan ke halaman belanja
-    });
-  } else {
-    console.log("Elemen Belanja tidak ditemukan di halaman.");
-  }
-});
-
-// -------------------------------------------------------------------------

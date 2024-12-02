@@ -67,71 +67,16 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Produk</h1>
 
         <!-- Filter Kategori -->
-        <div class="mb-6 flex items-center justify-between">
-          <div class="flex items-center">
-            <label for="categoryFilter" class="text-gray-700 mr-4"
-              >Filter Kategori:</label
-            >
-            <select
-              id="categoryFilter"
-              class="border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Semua Kategori</option>
-            </select>
-          </div>
-          <button
-            id="openCategoryModal"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        <div class="mb-6 flex items-center">
+          <label for="categoryFilter" class="text-gray-700 mr-4"
+            >Filter Kategori:</label
           >
-            Tambah Kategori
-          </button>
-        </div>
-
-        <div
-          id="categoryList"
-          class="grid grid-cols-1 md:grid-cols-3 gap-4"
-        ></div>
-
-        <!-- Modal untuk Kategori -->
-        <div
-          id="categoryModal"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
-        >
-          <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 id="categoryModalTitle" class="text-xl font-semibold mb-4">
-              Tambah Kategori
-            </h2>
-            <form id="categoryForm" class="space-y-4">
-              <input type="hidden" id="categoryId" />
-              <div>
-                <label class="block text-sm font-medium text-gray-700"
-                  >Nama Kategori</label
-                >
-                <input
-                  id="categoryName"
-                  type="text"
-                  class="w-full border border-gray-300 rounded px-3 py-2"
-                  placeholder="Nama Kategori"
-                  required
-                />
-              </div>
-              <div class="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  id="closeCategoryModal"
-                  class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  Simpan
-                </button>
-              </div>
-            </form>
-          </div>
+          <select
+            id="categoryFilter"
+            class="border border-gray-300 rounded px-3 py-2"
+          >
+            <option value="">Semua Kategori</option>
+          </select>
         </div>
 
         <!-- Tombol Tambah Produk -->
@@ -258,12 +203,6 @@
       const modalTitle = document.getElementById("modalTitle");
       const categoryFilter = document.getElementById("categoryFilter");
       const productCategory = document.getElementById("productCategory");
-      const categoryList = document.getElementById("categoryList");
-      const categoryModal = document.getElementById("categoryModal");
-      const openCategoryModal = document.getElementById("openCategoryModal");
-      const closeCategoryModal = document.getElementById("closeCategoryModal");
-      const categoryForm = document.getElementById("categoryForm");
-      const categoryModalTitle = document.getElementById("categoryModalTitle");
       const token = localStorage.getItem("token");
       const BASE_URL = "https://backend-eight-phi-75.vercel.app/api";
 
@@ -481,113 +420,6 @@
 
         return JSON.parse(jsonPayload);
       }
-
-      // ------------------------------------------------------------------
-      // fecth kategori
-
-      // Fetch Semua Kategori
-      const fetchCategories = async () => {
-        try {
-          const response = await fetch(`${BASE_URL}/kategori/all`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (!response.ok) throw new Error("Gagal mengambil data kategori");
-          const categories = await response.json();
-          renderCategories(categories);
-        } catch (error) {
-          console.error(error);
-          alert("Gagal memuat kategori");
-        }
-      };
-
-      // Render Daftar Kategori
-      const renderCategories = (categories) => {
-        categoryList.innerHTML = "";
-        categories.forEach((category) => {
-          const categoryCard = document.createElement("div");
-          categoryCard.className = "bg-white p-4 rounded-lg shadow-md";
-          categoryCard.innerHTML = `
-            <h3 class="text-lg font-semibold">${category.jenis_kategori}</h3>
-            <div class="mt-4">
-              <button class="bg-green-500 text-white px-4 py-1 rounded" onclick="editCategory(${category.id}, '${category.jenis_kategori}')">Edit</button>
-              <button class="bg-red-500 text-white px-4 py-1 rounded" onclick="deleteCategory(${category.id})">Hapus</button>
-            </div>
-          `;
-          categoryList.appendChild(categoryCard);
-        });
-      };
-
-      // Tambah/Edit Kategori
-      categoryForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const id = document.getElementById("categoryId").value;
-        const jenis_kategori = document.getElementById("categoryName").value;
-
-        const endpoint = id
-          ? `${BASE_URL}/kategori/update/${id}`
-          : `${BASE_URL}/kategori/create`;
-        const method = id ? "PUT" : "POST";
-
-        try {
-          const response = await fetch(endpoint, {
-            method,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ jenis_kategori }),
-          });
-          if (!response.ok) throw new Error("Gagal menyimpan kategori");
-
-          alert("Kategori berhasil disimpan");
-          categoryModal.classList.add("hidden");
-          fetchCategories();
-        } catch (error) {
-          console.error(error);
-          alert("Gagal menyimpan kategori");
-        }
-      });
-
-      // Hapus Kategori
-      const deleteCategory = async (id) => {
-        if (!confirm("Yakin ingin menghapus kategori ini?")) return;
-
-        try {
-          const response = await fetch(`${BASE_URL}/kategori/delete/${id}`, {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (!response.ok) throw new Error("Gagal menghapus kategori");
-
-          alert("Kategori berhasil dihapus");
-          fetchCategories();
-        } catch (error) {
-          console.error(error);
-          alert("Gagal menghapus kategori");
-        }
-      };
-
-      // Edit Kategori
-      const editCategory = (id, name) => {
-        document.getElementById("categoryId").value = id;
-        document.getElementById("categoryName").value = name;
-        categoryModalTitle.textContent = "Edit Kategori";
-        categoryModal.classList.remove("hidden");
-      };
-
-      // Modal Handling
-      openCategoryModal.addEventListener("click", () => {
-        document.getElementById("categoryId").value = "";
-        document.getElementById("categoryName").value = "";
-        categoryModalTitle.textContent = "Tambah Kategori";
-        categoryModal.classList.remove("hidden");
-      });
-      closeCategoryModal.addEventListener("click", () => {
-        categoryModal.classList.add("hidden");
-      });
-
-      // Inisialisasi
-      document.addEventListener("DOMContentLoaded", fetchCategories);
     </script>
   </body>
 </html>

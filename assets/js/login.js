@@ -54,48 +54,53 @@ document.addEventListener("DOMContentLoaded", () => {
       "https://backend-eight-phi-75.vercel.app/api/auth/google";
   });
 
-  // Tangani callback Google login
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
+// Tangani callback Google login
+const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get("token");
 
-  console.log("URL saat ini:", window.location.href);
-  console.log("Token dari URL:", token);
+console.log("URL saat ini:", window.location.href); // Logging URL
+console.log("Token ditemukan di URL:", token);      // Logging token
 
-  if (token) {
-    console.log("Token ditemukan di URL:", token);
-
+if (token) {
+  try {
     // Simpan token ke localStorage
-    try {
-      localStorage.setItem("token", token);
-      console.log(
-        "Token berhasil disimpan ke localStorage:",
-        localStorage.getItem("token")
-      );
+    localStorage.setItem("token", token);
+    console.log("Token berhasil disimpan ke localStorage:", localStorage.getItem("token"));
 
-      // Bersihkan URL dengan redirect manual
-      setTimeout(() => {
-        const baseUrl = window.location.origin + window.location.pathname;
-        console.log("Mengalihkan ke URL tanpa query:", baseUrl);
-        window.location.replace(baseUrl);
-      }, 100);
-    } catch (error) {
-      console.error("Gagal menyimpan token ke localStorage:", error);
+    // Parse JWT untuk mendapatkan informasi user
+    const payload = parseJwt(token);
+    console.log("Payload JWT:", payload);
+
+    // Validasi token
+    if (!payload || !payload.id || !payload.role) {
+      throw new Error("Token tidak valid");
     }
 
-    // Parse role user dari token
-    const userRole = parseJwt(token).role;
-
-    // Redirect berdasarkan role
-    if (userRole === "admin") {
+    // Redirect berdasarkan role user
+    if (payload.role === "admin") {
       window.location.href =
-        "/tokline.github.io/src/page/Admin/dashboard/index.html";
-    } else if (userRole === "pelanggan") {
-      window.location.href = "/tokline.github.io/index.html";
+        "https://proyek-3-proyek.github.io/tokline.github.io/src/page/Admin/dashboard/index.html";
+    } else if (payload.role === "pelanggan") {
+      window.location.href =
+        "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
+    } else {
+      throw new Error("Role tidak dikenali");
     }
-  } else {
-    console.log("Token tidak ditemukan di URL.");
+  } catch (error) {
+    console.error("Error:", error.message);
+    alert("Terjadi kesalahan. Silakan coba lagi.");
+  } finally {
+    // Bersihkan URL query string
+    const baseUrl = window.location.origin + window.location.pathname;
+    console.log("Menghapus query string, redirect ke:", baseUrl);
+    window.history.replaceState({}, document.title, baseUrl);
   }
+} else {
+  console.log("Token tidak ditemukan di URL.");
+}
 });
+
+let token = localStorage.getItem("token");
 
 // Fungsi untuk mem-parse JWT
 function parseJwt(token) {

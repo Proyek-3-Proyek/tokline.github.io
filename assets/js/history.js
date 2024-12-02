@@ -5,88 +5,40 @@ refreshButton.addEventListener("click", () => {
   refreshButton.innerHTML =
     '<i class="fas fa-spinner fa-spin mr-2"></i> Refreshing...';
 
-  // Simulasi request ke server
+  // Simulasi refresh data
   setTimeout(() => {
     // Contoh data baru
     const newData = [
       {
         date: "03 Des 2024, 08:00",
-        orderId: "TX-New-TX-12345...",
+        orderId: "TX-New-Order123...",
+        channel: "QRIS",
+        amount: "Rp15.000",
         status: "Berhasil",
         statusClass: "bg-green-100 text-green-600",
       },
     ];
 
-    // Update UI
-    const contentDiv = document.querySelector(".divide-y");
-    contentDiv.innerHTML = ""; // Bersihkan konten lama
+    const orderList = document.getElementById("orderList");
+    orderList.innerHTML = ""; // Hapus konten lama
     newData.forEach((data) => {
-      contentDiv.innerHTML += `
-          <div class="flex items-center justify-between px-6 py-4 hover:bg-gray-50">
-            <div class="flex items-center space-x-4">
-              <i class="fas fa-calendar-alt text-blue-500"></i>
-              <div>
-                <p class="text-sm text-gray-600">${data.date}</p>
-                <p class="text-sm font-medium text-gray-800 truncate" title="${data.orderId}">
-                  ${data.orderId}
-                </p>
-              </div>
-            </div>
-            <div class="flex space-x-4 items-center">
+      orderList.innerHTML += `
+          <div class="px-6 py-4 hover:bg-gray-50">
+            <p class="text-sm text-gray-600"><i class="fas fa-calendar-alt text-blue-500 mr-2"></i> ${data.date}</p>
+            <p class="text-sm font-medium text-gray-800 truncate">Order ID: ${data.orderId}</p>
+            <p class="text-sm text-gray-600">Channel: <span class="text-gray-800 font-semibold">${data.channel}</span></p>
+            <p class="text-sm text-gray-600">Nilai: <span class="text-gray-800 font-semibold">${data.amount}</span></p>
+            <p class="text-sm text-gray-600">Status: 
               <span class="text-xs font-semibold ${data.statusClass} px-2 py-1 rounded-full">${data.status}</span>
-              <button class="text-sm text-blue-500 hover:underline" onclick="showDetail('${data.orderId}')">Detail</button>
-            </div>
+            </p>
           </div>
         `;
     });
 
-    // Kembalikan tombol ke keadaan semula
+    // Kembalikan tombol refresh ke keadaan semula
     refreshButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Refresh';
   }, 1500); // Simulasi delay 1.5 detik
 });
-
-// -------------------------------------------------------------------------------------------------------
-
-function showDetail(orderId) {
-  // Data simulasi
-  const details = {
-    "TX-jHcP-TX-LOntUW...": {
-      date: "02 Des 2024, 11:05",
-      status: "Kedaluwarsa",
-      channel: "QRIS",
-      amount: "Rp5.000",
-      email: "kasyzzamy@gmail.com",
-    },
-  };
-
-  // Ambil data transaksi berdasarkan orderId
-  const data = details[orderId];
-
-  if (data) {
-    // Perbarui konten modal
-    const modalContent = document.getElementById("modalContent");
-    modalContent.innerHTML = `
-        <p><strong>Tanggal:</strong> ${data.date}</p>
-        <p><strong>Status:</strong> ${data.status}</p>
-        <p><strong>Channel:</strong> ${data.channel}</p>
-        <p><strong>Nilai:</strong> ${data.amount}</p>
-        <p><strong>E-Mail:</strong> ${data.email}</p>
-      `;
-
-    // Tampilkan modal
-    const modal = document.getElementById("detailModal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-  } else {
-    alert("Detail transaksi tidak ditemukan.");
-  }
-}
-
-function closeModal() {
-  const modal = document.getElementById("detailModal");
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
 
 // ------------------------------------------------------------------------------
 

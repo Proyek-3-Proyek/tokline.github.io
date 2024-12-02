@@ -58,7 +58,7 @@
       </div>
     </nav>
     <div class="max-w-4xl mx-auto p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Riwayat Pesanan</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Riwayat Pesanan</h2>
 
       <div class="bg-white shadow rounded-lg">
         <!-- Header -->
@@ -73,89 +73,55 @@
         </div>
 
         <!-- Content -->
-        <div class="divide-y divide-gray-200">
+        <div id="orderList" class="divide-y divide-gray-200">
           <!-- Item 1 -->
-          <div
-            class="flex items-center justify-between px-6 py-4 hover:bg-gray-50"
-          >
-            <div class="flex items-center space-x-4">
-              <i class="fas fa-calendar-alt text-blue-500"></i>
-              <div>
-                <p class="text-sm text-gray-600">02 Des 2024, 11:05</p>
-                <p
-                  class="text-sm font-medium text-gray-800 truncate"
-                  title="TX-jHcP-TX-LOntUW..."
-                >
-                  TX-jHcP-TX-LOntUW...
-                </p>
-              </div>
-            </div>
-            <div class="flex space-x-4 items-center">
+          <div class="px-6 py-4 hover:bg-gray-50">
+            <p class="text-sm text-gray-600">
+              <i class="fas fa-calendar-alt text-blue-500 mr-2"></i> 02 Des
+              2024, 11:05
+            </p>
+            <p class="text-sm font-medium text-gray-800 truncate">
+              Order ID: TX-jHcP-TX-LOntUW...
+            </p>
+            <p class="text-sm text-gray-600">
+              Channel: <span class="text-gray-800 font-semibold">QRIS</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Nilai: <span class="text-gray-800 font-semibold">Rp5.000</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Status:
               <span
                 class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-1 rounded-full"
                 >Kedaluwarsa</span
               >
-              <button class="text-sm text-blue-500 hover:underline">
-                Detail
-              </button>
-            </div>
+            </p>
           </div>
 
           <!-- Item 2 (Contoh Data Tambahan) -->
-          <div
-            class="flex items-center justify-between px-6 py-4 hover:bg-gray-50"
-          >
-            <div class="flex items-center space-x-4">
-              <i class="fas fa-calendar-alt text-blue-500"></i>
-              <div>
-                <p class="text-sm text-gray-600">01 Des 2024, 14:25</p>
-                <p
-                  class="text-sm font-medium text-gray-800 truncate"
-                  title="TX-kpXw-LMftOp..."
-                >
-                  TX-kpXw-LMftOp...
-                </p>
-              </div>
-            </div>
-            <div class="flex space-x-4 items-center">
+          <div class="px-6 py-4 hover:bg-gray-50">
+            <p class="text-sm text-gray-600">
+              <i class="fas fa-calendar-alt text-blue-500 mr-2"></i> 01 Des
+              2024, 14:25
+            </p>
+            <p class="text-sm font-medium text-gray-800 truncate">
+              Order ID: TX-kpXw-LMftOp...
+            </p>
+            <p class="text-sm text-gray-600">
+              Channel: <span class="text-gray-800 font-semibold">QRIS</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Nilai: <span class="text-gray-800 font-semibold">Rp10.000</span>
+            </p>
+            <p class="text-sm text-gray-600">
+              Status:
               <span
                 class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full"
                 >Berhasil</span
               >
-              <button
-                class="text-sm text-blue-500 hover:underline"
-                onclick="showDetail('TX-jHcP-TX-LOntUW...')"
-              >
-                Detail
-              </button>
-            </div>
+            </p>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div
-      id="detailModal"
-      class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center"
-    >
-      <div class="bg-white w-11/12 max-w-md rounded-lg shadow-lg p-6 relative">
-        <button
-          class="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
-          onclick="closeModal()"
-        >
-          <i class="fas fa-times"></i>
-        </button>
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Detail Transaksi</h3>
-        <div id="modalContent" class="space-y-2">
-          <!-- Konten akan diperbarui oleh JavaScript -->
-        </div>
-        <button
-          class="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          onclick="closeModal()"
-        >
-          Tutup
-        </button>
       </div>
     </div>
 

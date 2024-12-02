@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded dipanggil, memulai login handling...");
+
   console.log("Script login.js dimuat.");
 
   // Login menggunakan email dan password

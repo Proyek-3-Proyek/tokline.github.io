@@ -58,23 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
 console.log("Current URL:", window.location.href); // Log full URL
 console.log("Query String:", window.location.search); // Log only query string
 
-const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get("token");
-console.log("Extracted Token:", token); // Log extracted token
-
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM fully loaded and parsed");
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get("token");
-
-  if (token) {
-      console.log("Token ditemukan:", token);
-      localStorage.setItem("token", token);
-  } else {
-      console.error("Token tidak ditemukan di URL.");
-  }
-});
-
+const fullUrl = window.location.href;
+const tokenMatch = fullUrl.match(/token=([^&]*)/);
+const token = tokenMatch ? tokenMatch[1] : null;
 
 if (token) {
   try {

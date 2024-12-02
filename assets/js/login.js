@@ -102,14 +102,6 @@ if (token) {
 
 let token = localStorage.getItem("token");
 
-if (!token) {
-  const urlParams = new URLSearchParams(window.location.search);
-  token = urlParams.get("token");
-  if (token) {
-    localStorage.setItem("token", token);
-  }
-}
-
 // Fungsi untuk mem-parse JWT
 function parseJwt(token) {
   const base64Url = token.split(".")[1];

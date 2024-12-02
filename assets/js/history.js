@@ -1,44 +1,53 @@
-const refreshButton = document.getElementById("refreshButton");
+// Contoh endpoint API (ubah sesuai dengan endpoint Anda)
+const apiEndpoint = "https://api.example.com/orders";
 
-refreshButton.addEventListener("click", () => {
-  // Tampilkan loading saat proses berjalan
-  refreshButton.innerHTML =
-    '<i class="fas fa-spinner fa-spin mr-2"></i> Refreshing...';
+async function fetchOrderHistory() {
+  try {
+    const response = await fetch(apiEndpoint);
+    const data = await response.json();
 
-  // Simulasi refresh data
-  setTimeout(() => {
-    // Contoh data baru
-    const newData = [
-      {
-        date: "03 Des 2024, 08:00",
-        orderId: "TX-New-Order123...",
-        channel: "QRIS",
-        amount: "Rp15.000",
-        status: "Berhasil",
-        statusClass: "bg-green-100 text-green-600",
-      },
-    ];
+    const orderHistory = document.getElementById("orderHistory");
+    orderHistory.innerHTML = ""; // Bersihkan konten sebelumnya
 
-    const orderList = document.getElementById("orderList");
-    orderList.innerHTML = ""; // Hapus konten lama
-    newData.forEach((data) => {
-      orderList.innerHTML += `
-          <div class="px-6 py-4 hover:bg-gray-50">
-            <p class="text-sm text-gray-600"><i class="fas fa-calendar-alt text-blue-500 mr-2"></i> ${data.date}</p>
-            <p class="text-sm font-medium text-gray-800 truncate">Order ID: ${data.orderId}</p>
-            <p class="text-sm text-gray-600">Channel: <span class="text-gray-800 font-semibold">${data.channel}</span></p>
-            <p class="text-sm text-gray-600">Nilai: <span class="text-gray-800 font-semibold">${data.amount}</span></p>
-            <p class="text-sm text-gray-600">Status: 
-              <span class="text-xs font-semibold ${data.statusClass} px-2 py-1 rounded-full">${data.status}</span>
-            </p>
-          </div>
-        `;
+    data.forEach((order) => {
+      const row = `
+           <tr>
+             <td class="text-center px-6 py-4 text-gray-700">${order.date}</td>
+             <td class="text-center px-6 py-4 text-gray-700 truncate">${
+               order.orderId
+             }</td>
+             <td class="text-center px-6 py-4 text-gray-700">${
+               order.transactionType
+             }</td>
+             <td class="text-center px-6 py-4 text-gray-700">${
+               order.channel
+             }</td>
+             <td class="text-center px-6 py-4 text-gray-700">
+               <span class="text-xs font-semibold px-2 py-1 rounded-full ${
+                 order.status === "Kedaluwarsa"
+                   ? "bg-red-100 text-red-600"
+                   : "bg-green-100 text-green-600"
+               }">
+                 ${order.status}
+               </span>
+             </td>
+             <td class="text-center px-6 py-4 text-gray-700">${
+               order.amount
+             }</td>
+             <td class="text-center px-6 py-4 text-gray-700 truncate">${
+               order.customerEmail
+             }</td>
+           </tr>
+         `;
+      orderHistory.innerHTML += row;
     });
+  } catch (error) {
+    console.error("Error fetching order history:", error);
+  }
+}
 
-    // Kembalikan tombol refresh ke keadaan semula
-    refreshButton.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Refresh';
-  }, 1500); // Simulasi delay 1.5 detik
-});
+// Muat data ketika halaman dimuat
+window.onload = fetchOrderHistory;
 
 // ------------------------------------------------------------------------------
 

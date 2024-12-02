@@ -113,61 +113,7 @@
       </div>
     </div>
 
-    <script>
-      // Contoh endpoint API (ubah sesuai dengan endpoint Anda)
-      const apiEndpoint = "https://api.example.com/orders";
 
-      async function fetchOrderHistory() {
-        try {
-          const response = await fetch(apiEndpoint);
-          const data = await response.json();
-
-          const orderHistory = document.getElementById("orderHistory");
-          orderHistory.innerHTML = ""; // Bersihkan konten sebelumnya
-
-          data.forEach((order) => {
-            const row = `
-                <tr>
-                  <td class="text-center px-6 py-4 text-gray-700">${
-                    order.date
-                  }</td>
-                  <td class="text-center px-6 py-4 text-gray-700 truncate">${
-                    order.orderId
-                  }</td>
-                  <td class="text-center px-6 py-4 text-gray-700">${
-                    order.transactionType
-                  }</td>
-                  <td class="text-center px-6 py-4 text-gray-700">${
-                    order.channel
-                  }</td>
-                  <td class="text-center px-6 py-4 text-gray-700">
-                    <span class="text-xs font-semibold px-2 py-1 rounded-full ${
-                      order.status === "Kedaluwarsa"
-                        ? "bg-red-100 text-red-600"
-                        : "bg-green-100 text-green-600"
-                    }">
-                      ${order.status}
-                    </span>
-                  </td>
-                  <td class="text-center px-6 py-4 text-gray-700">${
-                    order.amount
-                  }</td>
-                  <td class="text-center px-6 py-4 text-gray-700 truncate">${
-                    order.customerEmail
-                  }</td>
-                </tr>
-              `;
-            orderHistory.innerHTML += row;
-          });
-        } catch (error) {
-          console.error("Error fetching order history:", error);
-        }
-      }
-
-      // Muat data ketika halaman dimuat
-      window.onload = fetchOrderHistory;
-    </script>
-
-    <!-- <script src="./../../../assets/js/history.js"></script> -->
+    <script src="./../../../assets/js/history.js"></script>
   </body>
 </html>

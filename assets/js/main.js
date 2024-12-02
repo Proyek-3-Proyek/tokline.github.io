@@ -178,3 +178,20 @@ function updateLoginButton() {
     `;
   }
 }
+// Navigasi ke halaman belanja
+document.addEventListener("DOMContentLoaded", () => {
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/katalog/index.html']"
+  );
+
+  if (belanjaLink) {
+    belanjaLink.addEventListener("click", function (event) {
+      event.preventDefault(); // Mencegah perilaku default link
+      window.location.href = "./src/page/katalog/index.html"; // Arahkan ke halaman belanja
+    });
+  } else {
+    console.log("Elemen Belanja tidak ditemukan di halaman.");
+  }
+});
+
+// ------

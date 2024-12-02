@@ -194,4 +194,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// Navigasi ke halaman belanja
+document.addEventListener("DOMContentLoaded", () => {
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/history/index.html']"
+  );
+
+  if (belanjaLink) {
+    belanjaLink.addEventListener("click", function (event) {
+      event.preventDefault(); // Mencegah perilaku default link
+      window.location.href = "./src/page/history/index.html"; // Arahkan ke halaman belanja
+    });
+  } else {
+    console.log("Elemen history tidak ditemukan di halaman.");
+  }
+});
+
 // ------

@@ -30,7 +30,7 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="body_primary">
+  <body class="">
     <nav class="navbar">
       <div class="logo">
         <i class="fa-solid fa-font-owesome"></i>
@@ -58,61 +58,117 @@
       </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Riwayat Pesanan</h2>
+    <div class="flex items-center justify-center min-h-screen">
+      <div class="max-w-7xl w-full p-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Riwayat Pesanan
+        </h1>
 
-      <div class="bg-white shadow-md rounded-lg">
-        <!-- Header -->
-        <div
-          class="grid grid-cols-6 text-sm font-semibold text-gray-600 bg-gray-100 p-4 border-b"
-        >
-          <div class="text-left">Tanggal & Waktu</div>
-          <div class="text-left">Order ID</div>
-          <div class="text-left">Jenis Transaksi</div>
-          <div class="text-left">Channel</div>
-          <div class="text-center">Status</div>
-          <div class="text-right">Nilai</div>
-        </div>
-
-        <!-- Data Row -->
-        <div
-          class="grid grid-cols-6 text-sm text-gray-800 border-b p-4 items-center hover:bg-gray-50"
-        >
-          <div class="text-left">02 Des 2024, 11:05</div>
-          <div class="truncate text-left" title="TX-jHcP-TX-LOntUW...">
-            TX-jHcP-TX-LOntUW...
-          </div>
-          <div class="text-left">Pembayaran</div>
-          <div class="text-left">QRIS</div>
-          <div class="text-center">
-            <span
-              class="text-xs font-semibold bg-red-100 text-red-600 px-2 py-1 rounded-full"
-              >Kedaluwarsa</span
-            >
-          </div>
-          <div class="text-right">Rp5.000</div>
-        </div>
-
-        <!-- Data Row (Contoh tambahan untuk variasi data) -->
-        <div
-          class="grid grid-cols-6 text-sm text-gray-800 border-b p-4 items-center hover:bg-gray-50"
-        >
-          <div class="text-left">01 Des 2024, 14:25</div>
-          <div class="truncate text-left" title="TX-kpXw-LMftOp...">
-            TX-kpXw-LMftOp...
-          </div>
-          <div class="text-left">Pembayaran</div>
-          <div class="text-left">QRIS</div>
-          <div class="text-center">
-            <span
-              class="text-xs font-semibold bg-green-100 text-green-600 px-2 py-1 rounded-full"
-              >Berhasil</span
-            >
-          </div>
-          <div class="text-right">Rp10.000</div>
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+          <table class="w-full border-collapse border border-gray-200">
+            <!-- Header -->
+            <thead class="bg-gray-100">
+              <tr>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Tanggal & Waktu
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Order ID
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Jenis Transaksi
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Channel
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Status
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Nilai
+                </th>
+                <th
+                  class="text-center align-middle px-6 py-4 border border-gray-200 text-gray-600 font-medium"
+                >
+                  Email Pelanggan
+                </th>
+              </tr>
+            </thead>
+            <!-- Body -->
+            <tbody id="orderHistory" class="divide-y divide-gray-200">
+              <!-- Data akan dimuat di sini -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+
+    <script>
+      // Contoh endpoint API (ubah sesuai dengan endpoint Anda)
+      const apiEndpoint = "https://api.example.com/orders";
+
+      async function fetchOrderHistory() {
+        try {
+          const response = await fetch(apiEndpoint);
+          const data = await response.json();
+
+          const orderHistory = document.getElementById("orderHistory");
+          orderHistory.innerHTML = ""; // Bersihkan konten sebelumnya
+
+          data.forEach((order) => {
+            const row = `
+                <tr>
+                  <td class="text-center px-6 py-4 text-gray-700">${
+                    order.date
+                  }</td>
+                  <td class="text-center px-6 py-4 text-gray-700 truncate">${
+                    order.orderId
+                  }</td>
+                  <td class="text-center px-6 py-4 text-gray-700">${
+                    order.transactionType
+                  }</td>
+                  <td class="text-center px-6 py-4 text-gray-700">${
+                    order.channel
+                  }</td>
+                  <td class="text-center px-6 py-4 text-gray-700">
+                    <span class="text-xs font-semibold px-2 py-1 rounded-full ${
+                      order.status === "Kedaluwarsa"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-green-100 text-green-600"
+                    }">
+                      ${order.status}
+                    </span>
+                  </td>
+                  <td class="text-center px-6 py-4 text-gray-700">${
+                    order.amount
+                  }</td>
+                  <td class="text-center px-6 py-4 text-gray-700 truncate">${
+                    order.customerEmail
+                  }</td>
+                </tr>
+              `;
+            orderHistory.innerHTML += row;
+          });
+        } catch (error) {
+          console.error("Error fetching order history:", error);
+        }
+      }
+
+      // Muat data ketika halaman dimuat
+      window.onload = fetchOrderHistory;
+    </script>
 
     <!-- <script src="./../../../assets/js/history.js"></script> -->
   </body>

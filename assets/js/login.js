@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOMContentLoaded dipanggil, memulai login handling...");
 
-  console.log("Script login.js dimuat.");
-
   // Login menggunakan email dan password
   document
     .getElementById("loginButton")
@@ -69,10 +67,11 @@ function handleGoogleLoginCallback() {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
 
+  console.log("URL saat ini:", window.location.href);
+  console.log("Token dari URL:", token);
+
   if (token) {
     try {
-      console.log("Token ditemukan di URL:", token);
-
       // Simpan token ke localStorage
       localStorage.setItem("token", token);
       console.log(
@@ -95,6 +94,7 @@ function handleGoogleLoginCallback() {
     } finally {
       // Bersihkan URL query string
       const baseUrl = window.location.origin + window.location.pathname;
+      console.log("Menghapus query string, redirect ke:", baseUrl);
       window.history.replaceState({}, document.title, baseUrl);
     }
   } else {

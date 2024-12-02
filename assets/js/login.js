@@ -54,15 +54,18 @@ document.addEventListener("DOMContentLoaded", () => {
       "https://backend-eight-phi-75.vercel.app/api/auth/google";
   });
 
-  // Tangani callback Google login
-  // Tangani callback Google login
+// Tangani callback Google login
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get("token");
+
+console.log("URL saat ini:", window.location.href); // Logging URL
+console.log("Token ditemukan di URL:", token);      // Logging token
 
 if (token) {
   try {
     // Simpan token ke localStorage
     localStorage.setItem("token", token);
+    console.log("Token berhasil disimpan ke localStorage:", localStorage.getItem("token"));
 
     // Parse JWT untuk mendapatkan informasi user
     const payload = parseJwt(token);
@@ -83,18 +86,36 @@ if (token) {
     } else {
       throw new Error("Role tidak dikenali");
     }
-
-    // Bersihkan URL query string
-    const baseUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState({}, document.title, baseUrl);
   } catch (error) {
     console.error("Error:", error.message);
     alert("Terjadi kesalahan. Silakan coba lagi.");
+  } finally {
+    // Bersihkan URL query string
+    const baseUrl = window.location.origin + window.location.pathname;
+    console.log("Menghapus query string, redirect ke:", baseUrl);
+    window.history.replaceState({}, document.title, baseUrl);
   }
 } else {
   console.log("Token tidak ditemukan di URL.");
 }
 });
+
+let token = localStorage.getItem("token");
+
+if (!token) {
+  const urlParams = new URLSearchParams(window.location.search);
+  token = urlParams.get("token");
+  if (token) {
+    localStorage.setItem("token", token);
+  }
+}
+
+if (!token) {
+  console.error("Token tidak ditemukan di URL atau localStorage.");
+  alert("Anda belum login. Silakan login kembali.");
+  window.location.href = "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+}
+
 
 // Fungsi untuk mem-parse JWT
 function parseJwt(token) {

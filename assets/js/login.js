@@ -55,11 +55,26 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 // Tangani callback Google login
+console.log("Current URL:", window.location.href); // Log full URL
+console.log("Query String:", window.location.search); // Log only query string
+
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get("token");
+console.log("Extracted Token:", token); // Log extracted token
 
-console.log("URL saat ini:", window.location.href); // Logging URL
-console.log("Token ditemukan di URL:", token);      // Logging token
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded and parsed");
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  if (token) {
+      console.log("Token ditemukan:", token);
+      localStorage.setItem("token", token);
+  } else {
+      console.error("Token tidak ditemukan di URL.");
+  }
+});
+
 
 if (token) {
   try {
@@ -82,7 +97,7 @@ if (token) {
         "https://proyek-3-proyek.github.io/tokline.github.io/src/page/Admin/dashboard/index.html";
     } else if (payload.role === "pelanggan") {
       window.location.href =
-        "https://proyek-3-proyek.github.io/tokline.github.io/index.html";
+        "https://proyek-3-proyek.github.io/tokline.github.io";
     } else {
       throw new Error("Role tidak dikenali");
     }

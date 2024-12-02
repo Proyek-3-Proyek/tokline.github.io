@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kelola Kategori</title>
+    <link href="./../../../../dist/styles.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="flex h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="w-64 bg-gray-800 text-white fixed top-0 left-0 h-full overflow-y-auto flex flex-col justify-between"
+      >
+        <div>
+          <div
+            class="p-4 text-center text-2xl font-bold border-b border-gray-700"
+          >
+            Admin Dashboard
+          </div>
+          <nav class="mt-4">
+            <a
+              href="./../dashboard/index.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50"
+              ><i class="fa-solid fa-house"></i> Dashboard</a
+            >
+            <a
+              href="./product.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50"
+            >
+              <i class="fa-solid fa-shirt"></i> Kelola Produk</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50 active_sidebar"
+            >
+              <i class="fa-solid fa-list"></i> Kelola Kategori</a
+            >
+            <a
+              href="./transaksi.html"
+              class="block px-4 py-2 text-gray-400 hover:bg-gray-700 hover:text-zinc-50"
+              ><i class="fa-solid fa-money-bill-wave"></i> Kelola Transaksi</a
+            >
+          </nav>
+        </div>
+        <div class="p-4 border-t border-gray-700">
+          <button
+            id="logoutButton"
+            class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- Konten Utama -->
+      <main class="flex-1 ml-64 p-6 overflow-y-auto">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Kategori</h1>
+
+        <!-- Tambah Kategori -->
+        <div class="mb-6 text-right">
+          <button
+            id="openCategoryModal"
+            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Tambah Kategori
+          </button>
+        </div>
+
+        <!-- Daftar Kategori -->
+        <div
+          id="categoryList"
+          class="grid grid-cols-1 md:grid-cols-3 gap-4"
+        ></div>
+
+        <!-- Modal Kategori -->
+        <div
+          id="categoryModal"
+          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 id="categoryModalTitle" class="text-xl font-semibold mb-4">
+              Tambah Kategori
+            </h2>
+            <form id="categoryForm" class="space-y-4">
+              <input type="hidden" id="categoryId" />
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Nama Kategori</label
+                >
+                <input
+                  id="categoryName"
+                  type="text"
+                  class="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Nama Kategori"
+                  required
+                />
+              </div>
+              <div class="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  id="closeCategoryModal"
+                  class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Simpan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const BASE_URL = "https://backend-eight-phi-75.vercel.app/api";
+      const token = localStorage.getItem("token");
+
+      const categoryList = document.getElementById("categoryList");
+      const categoryModal = document.getElementById("categoryModal");
+      const openCategoryModal = document.getElementById("openCategoryModal");
+      const closeCategoryModal = document.getElementById("closeCategoryModal");
+      const categoryForm = document.getElementById("categoryForm");
+      const categoryModalTitle = document.getElementById("categoryModalTitle");
+
+      // Fetch Kategori
+      const fetchCategories = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/kategori/all`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!response.ok) throw new Error("Gagal mengambil data kategori");
+          const categories = await response.json();
+          renderCategories(categories);
+        } catch (error) {
+          console.error(error);
+          alert("Gagal memuat kategori");
+        }
+      };
+
+      // Render Daftar Kategori
+      const renderCategories = (categories) => {
+        categoryList.innerHTML = "";
+        categories.forEach((category) => {
+          const categoryCard = document.createElement("div");
+          categoryCard.className = "bg-white p-4 rounded-lg shadow-md";
+          categoryCard.innerHTML = `
+            <h3 class="text-lg font-semibold">${category.jenis_kategori}</h3>
+            <div class="mt-4 space-x-2">
+              <button class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600" onclick="editCategory(${category.id}, '${category.jenis_kategori}')">Edit</button>
+              <button class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600" onclick="deleteCategory(${category.id})">Hapus</button>
+            </div>
+          `;
+          categoryList.appendChild(categoryCard);
+        });
+      };
+
+      // Tambah/Edit Kategori
+      categoryForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("categoryId").value;
+        const jenis_kategori = document.getElementById("categoryName").value;
+
+        const endpoint = id
+          ? `${BASE_URL}/kategori/update/${id}`
+          : `${BASE_URL}/kategori/create`;
+        const method = id ? "PUT" : "POST";
+
+        try {
+          const response = await fetch(endpoint, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ jenis_kategori }),
+          });
+          if (!response.ok) throw new Error("Gagal menyimpan kategori");
+
+          alert("Kategori berhasil disimpan");
+          categoryModal.classList.add("hidden");
+          fetchCategories();
+        } catch (error) {
+          console.error(error);
+          alert("Gagal menyimpan kategori");
+        }
+      });
+
+      // Hapus Kategori
+      const deleteCategory = async (id) => {
+        if (!confirm("Yakin ingin menghapus kategori ini?")) return;
+
+        try {
+          const response = await fetch(`${BASE_URL}/kategori/delete/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!response.ok) throw new Error("Gagal menghapus kategori");
+
+          alert("Kategori berhasil dihapus");
+          fetchCategories();
+        } catch (error) {
+          console.error(error);
+          alert("Gagal menghapus kategori");
+        }
+      };
+
+      // Edit Kategori
+      const editCategory = (id, name) => {
+        document.getElementById("categoryId").value = id;
+        document.getElementById("categoryName").value = name;
+        categoryModalTitle.textContent = "Edit Kategori";
+        categoryModal.classList.remove("hidden");
+      };
+
+      // Modal Handling
+      openCategoryModal.addEventListener("click", () => {
+        document.getElementById("categoryId").value = "";
+        document.getElementById("categoryName").value = "";
+        categoryModalTitle.textContent = "Tambah Kategori";
+        categoryModal.classList.remove("hidden");
+      });
+      closeCategoryModal.addEventListener("click", () => {
+        categoryModal.classList.add("hidden");
+      });
+
+      // Inisialisasi
+      document.addEventListener("DOMContentLoaded", fetchCategories);
+    </script>
+  </body>
+</html>

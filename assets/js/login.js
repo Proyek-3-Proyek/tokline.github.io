@@ -110,13 +110,6 @@ if (!token) {
   }
 }
 
-if (!token) {
-  console.error("Token tidak ditemukan di URL atau localStorage.");
-  alert("Anda belum login. Silakan login kembali.");
-  window.location.href = "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
-}
-
-
 // Fungsi untuk mem-parse JWT
 function parseJwt(token) {
   const base64Url = token.split(".")[1];

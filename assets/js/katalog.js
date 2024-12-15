@@ -57,6 +57,10 @@ async function orderProduct() {
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
   );
+  const productId = document.getElementById("modalProductId").value;
+  const rawPrice = document.getElementById("modalProductPrice").textContent;
+  const productPrice = parseInt(rawPrice.replace(/[^\d]/g, "")); // Ambil angka dari harga
+  const totalHarga = quantity * productPrice;
 
   // Validasi jumlah pesanan
   if (quantity > stock) {
@@ -77,13 +81,6 @@ async function orderProduct() {
     return;
   }
 
-  // Ambil detail produk dari modal
-  const productId = document.getElementById("modalProductId").value || 0; // ID produk
-  const productName = document.getElementById("modalProductName").textContent;
-  const rawPrice = document.getElementById("modalProductPrice").textContent;
-  const productPrice = parseInt(rawPrice.replace(/[^\d]/g, "")); // Ambil angka dari harga
-  const totalHarga = quantity * productPrice;
-
   // Ambil token dari localStorage
   const token = localStorage.getItem("token");
   if (!token) {
@@ -103,6 +100,7 @@ async function orderProduct() {
   };
 
   try {
+    // Tampilkan SweetAlert loading
     Swal.fire({
       title: "Sedang Memproses...",
       text: "Mohon tunggu sebentar.",
@@ -114,6 +112,7 @@ async function orderProduct() {
       },
     });
 
+    // Kirim data ke endpoint pembayaran
     const response = await fetch(
       "https://backend-eight-phi-75.vercel.app/api/payment/create",
       {
@@ -136,18 +135,22 @@ async function orderProduct() {
       return;
     }
 
+    // Respons berhasil
     const result = await response.json();
 
-    // Tampilkan pesan sukses
+    // Tampilkan SweetAlert sukses
     Swal.fire({
       icon: "success",
       title: "Pesanan Berhasil!",
-      text: "Pesanan Anda berhasil dibuat.",
-      confirmButtonText: "Lanjutkan ke Pembayaran",
-    }).then(() => {
-      // Arahkan ke halaman pembayaran Midtrans
-      window.location.href = result.data.snap_url;
+      text: "Anda akan diarahkan ke halaman pembayaran.",
+      showConfirmButton: false,
+      timer: 2000, // Tunggu 2 detik sebelum redirect
     });
+
+    // Arahkan ke halaman pembayaran Snap Midtrans
+    setTimeout(() => {
+      window.location.href = result.data.snap_url;
+    }, 2000); // Redirect setelah SweetAlert ditutup
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
     Swal.fire({

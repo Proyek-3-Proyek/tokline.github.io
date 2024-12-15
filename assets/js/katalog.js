@@ -48,50 +48,112 @@ document.querySelector(".modal").addEventListener("click", (event) => {
   event.stopPropagation(); // Prevent click inside modal from closing it
 });
 
-function orderProduct() {
+async function orderProduct() {
   const quantity = parseInt(
     document.getElementById("modalProductQuantity").value
   );
   const stock = parseInt(
     document.getElementById("modalProductStock").textContent
   );
-  const size =
-    document.getElementById("modalProductSize").value || "Default Size"; // Ukuran default jika tidak dipilih
 
-  // Validasi
+  // Validasi jumlah pesanan
   if (quantity > stock) {
-    alert("Jumlah produk yang dipesan melebihi stok yang tersedia!");
+    Swal.fire({
+      icon: "error",
+      title: "Stok Tidak Cukup!",
+      text: "Jumlah produk yang dipesan melebihi stok yang tersedia.",
+    });
     return;
   }
 
   if (quantity < 1) {
-    alert("Jumlah produk harus minimal 1!");
+    Swal.fire({
+      icon: "error",
+      title: "Jumlah Tidak Valid!",
+      text: "Jumlah produk harus minimal 1.",
+    });
     return;
   }
 
   // Ambil detail produk dari modal
+  const productId = document.getElementById("modalProductId").value || 0; // ID produk
   const productName = document.getElementById("modalProductName").textContent;
   const rawPrice = document.getElementById("modalProductPrice").textContent;
-  const productPrice = rawPrice.replace(/[^\d]/g, ""); // Ambil angka dari harga
-  const productImage = document.getElementById("modalProductImage").src;
+  const productPrice = parseInt(rawPrice.replace(/[^\d]/g, "")); // Ambil angka dari harga
+  const totalHarga = quantity * productPrice;
 
-  // Validasi data
-  if (!productName || !productPrice || !quantity || !productImage) {
-    alert("Data pemesanan tidak lengkap!");
+  // Ambil token dari localStorage
+  const token = localStorage.getItem("token");
+  if (!token) {
+    Swal.fire({
+      icon: "warning",
+      title: "Belum Login!",
+      text: "Anda harus login untuk melakukan pemesanan.",
+    });
     return;
   }
 
-  // Redirect ke halaman beli dengan query parameter
-  const url =
-    "/tokline.github.io/src/page/Beli/index.html" +
-    `?name=${encodeURIComponent(productName)}` +
-    `&price=${encodeURIComponent(productPrice)}` +
-    `&quantity=${encodeURIComponent(quantity)}` +
-    `&size=${encodeURIComponent(size)}` +
-    `&image=${encodeURIComponent(productImage)}`;
+  // Buat data untuk dikirim ke backend
+  const orderData = {
+    id_produk: productId,
+    jumlah: quantity,
+    total_harga: totalHarga,
+  };
 
-  // Mengarahkan ke halaman Beli
-  window.location.href = url;
+  try {
+    Swal.fire({
+      title: "Sedang Memproses...",
+      text: "Mohon tunggu sebentar.",
+      icon: "info",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    const response = await fetch(
+      "https://backend-eight-phi-75.vercel.app/api/payment/create",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      Swal.fire({
+        icon: "error",
+        title: "Gagal Membuat Pesanan",
+        text: errorData.message,
+      });
+      return;
+    }
+
+    const result = await response.json();
+
+    // Tampilkan pesan sukses
+    Swal.fire({
+      icon: "success",
+      title: "Pesanan Berhasil!",
+      text: "Pesanan Anda berhasil dibuat.",
+      confirmButtonText: "Lanjutkan ke Pembayaran",
+    }).then(() => {
+      // Arahkan ke halaman pembayaran Midtrans
+      window.location.href = result.data.snap_url;
+    });
+  } catch (error) {
+    console.error("Terjadi kesalahan:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Terjadi Kesalahan",
+      text: "Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.",
+    });
+  }
 }
 
 // ------------------------------------------------------------------------

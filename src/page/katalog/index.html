@@ -28,6 +28,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <title>katalog</title>
@@ -84,6 +88,8 @@
           <p id="modalProductDescription"></p>
           <p class="price">Rp. <span id="modalProductPrice"></span></p>
           <p class="stock">Stok: <span id="modalProductStock"></span></p>
+          <!-- Input hidden untuk ID produk -->
+          <input type="hidden" id="modalProductId" />
         </div>
         <div class="modal-actions">
           <label for="modalProductQuantity">Jumlah:</label>
@@ -94,7 +100,6 @@
             value="1"
             class="input-field"
           />
-
           <button onclick="orderProduct()" class="order-button">Pesan</button>
         </div>
       </div>

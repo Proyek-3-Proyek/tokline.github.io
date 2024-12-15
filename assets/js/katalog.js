@@ -1,30 +1,32 @@
 // Open Modal Function
 function openOrderModal(button) {
-  // Navigasi DOM untuk mendapatkan elemen parent dari tombol
   const card = button.closest(".card");
 
-  // Ambil data dari elemen dalam card
+  // Ambil data produk dari elemen card
+  const productId = card.getAttribute("data-id"); // Pastikan ID produk disimpan di atribut card
   const name = card.querySelector("#nama_produk").textContent.trim();
   const description = card.querySelector("#deskrip_produk").textContent.trim();
   const image = card.querySelector(".img-box img").src;
   const priceText = card.querySelector("#harga_produk").textContent.trim();
-  const price = parseInt(priceText.replace(/\D/g, "")); // Hapus teks non-numerik
+  const price = parseInt(priceText.replace(/\D/g, ""));
   const stock = parseInt(
     card.querySelector("#stock_produk").textContent.replace(/\D/g, "")
-  ); // Ambil stok produk dari card
+  );
 
-  // Panggil modal dengan data produk
+  // Isi data produk ke modal
+  document.getElementById("modalProductId").value = productId; // Set ID produk
   document.getElementById("modalProductName").textContent = name;
   document.getElementById("modalProductDescription").textContent = description;
   document.getElementById("modalProductImage").src = image;
   document.getElementById("modalProductPrice").textContent =
     price.toLocaleString();
-  document.getElementById("modalProductStock").textContent = stock; // Set stok di modal
+  document.getElementById("modalProductStock").textContent = stock;
 
   // Tampilkan modal
   document.getElementById("orderModal").classList.add("show");
   document.querySelector(".background-modal").classList.add("show");
 }
+
 // ---------------------------------------------------
 
 // Close Modal Function
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     produkList.forEach((produk) => {
       const card = `
-        <div class="card" style="--clr: #009688">
+        <div class="card" style="--clr: #009688" data-id="${produk.id}">
           <div class="img-box">
             <img src="https://qzbythadanrtksusxdtq.supabase.co/storage/v1/object/public/gambar/${produk.gambar}" width="100" height="100" />
           </div>
@@ -211,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               <p id="harga_produk" class="text-sky-400">Harga: Rp. ${produk.harga}</p>
             </div>
             <div class="stock pb-5">
-              <p id="stock_produk" class="text-sky-400">Stok: ${produk.qty}</p> <!-- Menampilkan stok di card -->
+              <p id="stock_produk" class="text-sky-400">Stok: ${produk.qty}</p>
             </div>
             <button class="button-buy" onclick="openOrderModal(this)">
               Beli

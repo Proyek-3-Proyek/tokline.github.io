@@ -90,3 +90,6 @@ function updateLoginButton() {
     `;
   }
 }
+
+// Panggil fungsi saat halaman selesai dimuat
+document.addEventListener("DOMContentLoaded", updateLoginButton);

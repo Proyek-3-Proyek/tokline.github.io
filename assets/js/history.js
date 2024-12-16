@@ -99,17 +99,28 @@ document.addEventListener("DOMContentLoaded", updateLoginButton);
 async function fetchTransactionByToken() {
   const token = localStorage.getItem("token"); // Mendapatkan token dari localStorage
   if (!token) {
-    alert("Anda belum login. Silakan login terlebih dahulu.");
+    Swal.fire({
+      icon: "warning",
+      title: "Anda belum login",
+      text: "Silakan login terlebih dahulu untuk melihat riwayat transaksi.",
+      confirmButtonText: "Login",
+    }).then(() => {
+      window.location.href = "/tokline.github.io/src/page/auth/login.html"; // Redirect ke halaman login
+    });
     return;
   }
 
   try {
     // Dekode token untuk mendapatkan userId
     const decodedToken = parseJwt(token);
-    const userId = decodedToken.userId; // Sesuaikan dengan struktur token Anda
+    const userId = decodedToken.userId; // Pastikan ini berasal dari token JWT (jika namanya userId di JWT)
 
     if (!userId) {
-      alert("Gagal mendapatkan userId dari token.");
+      Swal.fire({
+        icon: "error",
+        title: "Kesalahan",
+        text: "Gagal mendapatkan userId dari token.",
+      });
       return;
     }
 
@@ -132,21 +143,22 @@ async function fetchTransactionByToken() {
     const orderHistory = document.getElementById("orderHistory");
     orderHistory.innerHTML = ""; // Bersihkan konten sebelumnya
 
+    if (data.length === 0) {
+      Swal.fire({
+        icon: "info",
+        title: "Tidak Ada Transaksi",
+        text: "Anda belum memiliki transaksi.",
+      });
+      return;
+    }
+
     data.forEach((transaction) => {
       const row = `
         <tr>
-          <td class="text-center px-6 py-4 text-gray-700">${
-            transaction.transaksi_id
-          }</td>
-          <td class="text-center px-6 py-4 text-gray-700">${
-            transaction.nama_produk
-          }</td>
-          <td class="text-center px-6 py-4 text-gray-700">${
-            transaction.jumlah
-          }</td>
-          <td class="text-center px-6 py-4 text-gray-700">${
-            transaction.gross_amount
-          }</td>
+          <td class="text-center px-6 py-4 text-gray-700">${transaction.transaksi_id}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${transaction.nama_produk}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${transaction.jumlah}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${transaction.gross_amount}</td>
           <td class="text-center px-6 py-4 text-gray-700">
             <span class="text-xs font-semibold px-2 py-1 rounded-full ${
               transaction.status === "paid"
@@ -157,27 +169,33 @@ async function fetchTransactionByToken() {
             </span>
           </td>
           <td class="text-center px-6 py-4 text-gray-700">
-            <a href="${
-              transaction.snap_url
-            }" target="_blank" class="text-blue-500 underline">
+            <a href="${transaction.snap_url}" target="_blank" class="text-blue-500 underline">
               Lihat Detail
             </a>
           </td>
-          <td class="text-center px-6 py-4 text-gray-700">${new Date(
-            transaction.created_at
-          ).toLocaleString()}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${new Date(transaction.created_at).toLocaleString()}</td>
         </tr>
       `;
       orderHistory.innerHTML += row;
     });
+
+    Swal.fire({
+      icon: "success",
+      title: "Data Berhasil Dimuat",
+      text: "Riwayat transaksi Anda telah ditampilkan.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   } catch (error) {
     console.error("Error fetching transaction by token:", error);
-    alert("Gagal memuat data transaksi. Silakan coba lagi.");
+
+    Swal.fire({
+      icon: "error",
+      title: "Gagal Memuat Data",
+      text: "Terjadi kesalahan saat memuat data transaksi. Silakan coba lagi.",
+    });
   }
 }
-
-// Panggil fungsi saat halaman selesai dimuat
-window.onload = fetchTransactionByToken;
 
 // Panggil fungsi saat halaman selesai dimuat
 window.onload = fetchTransactionByToken;

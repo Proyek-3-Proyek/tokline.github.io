@@ -113,7 +113,7 @@ async function fetchTransactionByToken() {
   try {
     // Dekode token untuk mendapatkan userId
     const decodedToken = parseJwt(token);
-    const userId = decodedToken.userId; // Pastikan ini berasal dari token JWT (jika namanya userId di JWT)
+    const userId = decodedToken.id_user;
 
     if (!userId) {
       Swal.fire({
@@ -124,7 +124,7 @@ async function fetchTransactionByToken() {
       return;
     }
 
-    const apiEndpoint = `https://backend-eight-phi-75.vercel.app/api/payment/transactions/${userId}`;
+    const apiEndpoint = `https://backend-eight-phi-75.vercel.app/api/payment/transactions/${id_user}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -155,10 +155,18 @@ async function fetchTransactionByToken() {
     data.forEach((transaction) => {
       const row = `
         <tr>
-          <td class="text-center px-6 py-4 text-gray-700">${transaction.transaksi_id}</td>
-          <td class="text-center px-6 py-4 text-gray-700">${transaction.nama_produk}</td>
-          <td class="text-center px-6 py-4 text-gray-700">${transaction.jumlah}</td>
-          <td class="text-center px-6 py-4 text-gray-700">${transaction.gross_amount}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${
+            transaction.transaksi_id
+          }</td>
+          <td class="text-center px-6 py-4 text-gray-700">${
+            transaction.nama_produk
+          }</td>
+          <td class="text-center px-6 py-4 text-gray-700">${
+            transaction.jumlah
+          }</td>
+          <td class="text-center px-6 py-4 text-gray-700">${
+            transaction.gross_amount
+          }</td>
           <td class="text-center px-6 py-4 text-gray-700">
             <span class="text-xs font-semibold px-2 py-1 rounded-full ${
               transaction.status === "paid"
@@ -169,11 +177,15 @@ async function fetchTransactionByToken() {
             </span>
           </td>
           <td class="text-center px-6 py-4 text-gray-700">
-            <a href="${transaction.snap_url}" target="_blank" class="text-blue-500 underline">
+            <a href="${
+              transaction.snap_url
+            }" target="_blank" class="text-blue-500 underline">
               Lihat Detail
             </a>
           </td>
-          <td class="text-center px-6 py-4 text-gray-700">${new Date(transaction.created_at).toLocaleString()}</td>
+          <td class="text-center px-6 py-4 text-gray-700">${new Date(
+            transaction.created_at
+          ).toLocaleString()}</td>
         </tr>
       `;
       orderHistory.innerHTML += row;
@@ -201,16 +213,19 @@ async function fetchTransactionByToken() {
 window.onload = fetchTransactionByToken;
 
 function parseJwt(token) {
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-
-  return JSON.parse(jsonPayload);
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    console.log("Decoded Payload:", JSON.parse(jsonPayload)); // Debug payload
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Failed to parse JWT:", error);
+    return null;
+  }
 }

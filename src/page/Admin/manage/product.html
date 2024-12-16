@@ -215,22 +215,39 @@
       const BASE_URL = "https://backend-eight-phi-75.vercel.app/api";
 
       // Fetch Produk
+
       async function fetchProducts(category = "") {
+        Swal.fire({
+          title: "Memuat Data Produk",
+          text: "Silakan tunggu...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         try {
           const response = await fetch(`${BASE_URL}/produk/all`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (!response.ok) throw new Error("Gagal mengambil data produk");
+
           const products = await response.json();
           const filteredProducts = category
             ? products.filter(
                 (product) => product.kategori.jenis_kategori === category
               )
             : products;
+
           renderProducts(filteredProducts);
+          Swal.close(); 
         } catch (error) {
           console.error(error);
-          alert("Error saat memuat produk");
+          Swal.fire({
+            title: "Error",
+            text: "Gagal memuat data produk. Silakan coba lagi.",
+            icon: "error",
+          });
         }
       }
 

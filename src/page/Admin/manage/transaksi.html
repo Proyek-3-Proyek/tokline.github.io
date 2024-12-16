@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <script
-      src="https://kit.fontawesome.com/your-kit-id.js"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"
       crossorigin="anonymous"
     ></script>
   </head>
@@ -71,43 +71,12 @@
       <main class="flex-1 ml-64 p-6 overflow-y-auto">
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Kelola Transaksi</h1>
 
-        <!-- Filter dan Pencarian -->
-        <div class="flex items-center space-x-4 mb-6">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Cari transaksi..."
-            class="w-1/3 border border-gray-300 rounded px-3 py-2"
-          />
-          <select
-            id="statusFilter"
-            class="border border-gray-300 rounded px-3 py-2"
-          >
-            <option value="">Semua Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Berhasil">Berhasil</option>
-            <option value="Gagal">Gagal</option>
-          </select>
-          <button
-            id="filterButton"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Filter
-          </button>
-          <button
-            id="exportButton"
-            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-          >
-            Export CSV
-          </button>
-        </div>
-
         <!-- Tabel Transaksi -->
         <table class="w-full bg-white rounded-lg shadow-md">
           <thead class="bg-gray-200">
             <tr>
               <th class="text-left px-4 py-2">ID Transaksi</th>
-              <th class="text-left px-4 py-2">Nama Pelanggan</th>
+              <th class="text-left px-4 py-2">Nama Produk</th>
               <th class="text-left px-4 py-2">Waktu</th>
               <th class="text-left px-4 py-2">Total</th>
               <th class="text-left px-4 py-2">Status</th>
@@ -122,168 +91,142 @@
     </div>
 
     <script>
-      // Data dummy transaksi
-      const transactions = [{}, {}, {}];
-
-      const transactionTable = document.getElementById("transactionTable");
-      const searchInput = document.getElementById("searchInput");
-      const statusFilter = document.getElementById("statusFilter");
-
-      // Fungsi render tabel transaksi
-      function renderTransactions(filterText = "", filterStatus = "") {
-        transactionTable.innerHTML = "";
-
-        const filteredTransactions = transactions.filter((t) => {
-          const matchesText = filterText
-            ? t.customer.toLowerCase().includes(filterText.toLowerCase()) ||
-              t.id.includes(filterText)
-            : true;
-          const matchesStatus = filterStatus ? t.status === filterStatus : true;
-          return matchesText && matchesStatus;
-        });
-
-        filteredTransactions.forEach((t) => {
-          const row = document.createElement("tr");
-          row.className = "hover:bg-gray-100";
-
-          row.innerHTML = `
-          <td class="px-4 py-2">${t.id}</td>
-          <td class="px-4 py-2">${t.customer}</td>
-          <td class="px-4 py-2">${t.time}</td>
-          <td class="px-4 py-2">Rp${t.total.toLocaleString()}</td>
-          <td class="px-4 py-2">
-            <span class="${getStatusClass(t.status)} px-2 py-1 rounded">${
-            t.status
-          }</span>
-          </td>
-          <td class="px-4 py-2 text-center">
-            <button onclick="viewDetails('${
-              t.id
-            }')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Detail</button>
-          </td>
-        `;
-          transactionTable.appendChild(row);
-        });
-      }
-
-      // Fungsi untuk mendapatkan kelas status
-      function getStatusClass(status) {
-        switch (status) {
-          case "Pending":
-            return "bg-yellow-500 text-white";
-          case "Berhasil":
-            return "bg-green-500 text-white";
-          case "Gagal":
-            return "bg-red-500 text-white";
-          default:
-            return "";
-        }
-      }
-
-      // Filter transaksi
-      document.getElementById("filterButton").addEventListener("click", () => {
-        const filterText = searchInput.value;
-        const filterStatus = statusFilter.value;
-        renderTransactions(filterText, filterStatus);
-      });
-
-      // Fungsi untuk melihat detail transaksi
-      function viewDetails(id) {
-        alert(`Detail transaksi dengan ID: ${id}`);
-      }
-
-      // Inisialisasi
-      renderTransactions();
-
-      // Fungsi untuk mengonversi data transaksi ke CSV
-      function exportToCSV() {
-        const headers = [
-          "ID Transaksi",
-          "Nama Pelanggan",
-          "Waktu",
-          "Total",
-          "Status",
-        ];
-        const rows = transactions.map((t) => [
-          t.id,
-          t.customer,
-          t.time,
-          `Rp${t.total.toLocaleString()}`,
-          t.status,
-        ]);
-
-        let csvContent = "data:text/csv;charset=utf-8,";
-
-        // Tambahkan header
-        csvContent += headers.join(",") + "\n";
-
-        // Tambahkan baris data
-        rows.forEach((row) => {
-          csvContent += row.join(",") + "\n";
-        });
-
-        // Buat link unduhan
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "transaksi.csv");
-        document.body.appendChild(link);
-
-        // Klik link untuk memulai unduhan
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      // Tambahkan event listener ke tombol Export
-      document
-        .getElementById("exportButton")
-        .addEventListener("click", exportToCSV);
-
-      // --------------------------------------------------------------------------------------
       document.addEventListener("DOMContentLoaded", () => {
-        // Periksa token di localStorage
+        const transactionTable = document.getElementById("transactionTable");
         const token = localStorage.getItem("token");
 
+        // Periksa token login
         if (!token) {
-          alert("Anda tidak memiliki akses. Silakan login sebagai admin.");
-          window.location.href =
-            "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+          Swal.fire({
+            icon: "error",
+            title: "Akses Ditolak",
+            text: "Anda tidak memiliki akses. Silakan login sebagai admin.",
+          }).then(() => {
+            window.location.href =
+              "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+          });
           return;
         }
 
-        // Cek role user dari token JWT
-        const userRole = parseJwt(token).role;
-        if (userRole !== "admin") {
-          alert("Anda tidak memiliki akses ke halaman ini.");
-          window.location.href = "/transaksi.html";
+        // Fungsi fetch data transaksi
+        async function fetchTransactions() {
+          try {
+            const response = await fetch(
+              "https://backend-eight-phi-75.vercel.app/api/payment/transactions",
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Gagal mengambil data transaksi.");
+            }
+
+            const transactions = await response.json();
+
+            // Render data transaksi ke tabel
+            transactionTable.innerHTML = ""; // Kosongkan tabel sebelum render
+            transactions.forEach((transaction) => {
+              const row = document.createElement("tr");
+              row.className = "hover:bg-gray-100";
+
+              row.innerHTML = `
+                <td class="px-4 py-2">${transaction.transaksi_id}</td>
+                <td class="px-4 py-2">${transaction.nama_produk}</td>
+                <td class="px-4 py-2">${new Date(
+                  transaction.created_at
+                ).toLocaleString()}</td>
+                <td class="px-4 py-2">Rp${transaction.gross_amount.toLocaleString()}</td>
+                <td class="px-4 py-2">
+                  <span class="${getStatusClass(
+                    transaction.status
+                  )} px-2 py-1 rounded">${transaction.status}</span>
+                </td>
+                <td class="px-4 py-2 text-center">
+                  <button onclick="viewDetails('${
+                    transaction.transaksi_id
+                  }')" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Detail</button>
+                </td>
+              `;
+
+              transactionTable.appendChild(row);
+            });
+
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Diambil",
+              text: "Data transaksi telah berhasil dimuat.",
+            });
+          } catch (error) {
+            console.error("Error:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Terjadi Kesalahan",
+              text: "Gagal mengambil data transaksi.",
+            });
+          }
+        }
+
+        // Fungsi untuk mendapatkan kelas status
+        function getStatusClass(status) {
+          switch (status) {
+            case "Pending":
+              return "bg-yellow-500 text-white";
+            case "Berhasil":
+            case "paid":
+              return "bg-green-500 text-white";
+            case "Gagal":
+              return "bg-red-500 text-white";
+            default:
+              return "";
+          }
+        }
+
+        // Fungsi untuk melihat detail transaksi
+        function viewDetails(id) {
+          Swal.fire({
+            title: "Detail Transaksi",
+            text: `Detail transaksi dengan ID: ${id}`,
+            icon: "info",
+            confirmButtonText: "Tutup",
+          });
         }
 
         // Tambahkan event listener untuk tombol logout
-        const logoutButton = document.getElementById("logoutButton");
-        logoutButton.addEventListener("click", () => {
-          // Hapus token dari localStorage
-          localStorage.removeItem("token");
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", () => {
+            Swal.fire({
+              title: "Konfirmasi Logout",
+              text: "Apakah Anda yakin ingin logout?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Ya, logout",
+              cancelButtonText: "Batal",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                localStorage.removeItem("token");
+                Swal.fire(
+                  "Logout Berhasil",
+                  "Anda telah logout.",
+                  "success"
+                ).then(() => {
+                  window.location.href =
+                    "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+                });
+              }
+            });
+          });
 
-          // Tampilkan pesan dan redirect ke halaman login
-          alert("Anda telah logout.");
-          window.location.href =
-            "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
-        });
+        // Mulai fetch data setelah halaman selesai dimuat
+        fetchTransactions();
       });
-
-      // Fungsi parseJwt untuk mem-parse token JWT
-      function parseJwt(token) {
-        const base64Url = token.split(".")[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split("")
-            .map((c) => `%${c.charCodeAt(0).toString(16).padStart(2, "0")}`)
-            .join("")
-        );
-
-        return JSON.parse(jsonPayload);
-      }
     </script>
   </body>
 </html>

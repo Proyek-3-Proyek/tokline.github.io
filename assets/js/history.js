@@ -111,20 +111,20 @@ async function fetchTransactionByToken() {
   }
 
   try {
-    // Dekode token untuk mendapatkan userId
+    // Dekode token untuk mendapatkan id
     const decodedToken = parseJwt(token);
-    const userId = decodedToken.id_user;
+    const userId = decodedToken.id; // Gunakan "id" sesuai dengan payload token Anda
 
     if (!userId) {
       Swal.fire({
         icon: "error",
         title: "Kesalahan",
-        text: "Gagal mendapatkan userId dari token.",
+        text: "Gagal mendapatkan ID pengguna dari token.",
       });
       return;
     }
 
-    const apiEndpoint = `https://backend-eight-phi-75.vercel.app/api/payment/transactions/${id_user}`;
+    const apiEndpoint = `https://backend-eight-phi-75.vercel.app/api/payment/transactions/${userId}`;
 
     const response = await fetch(apiEndpoint, {
       method: "GET",

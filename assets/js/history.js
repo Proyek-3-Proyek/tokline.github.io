@@ -113,9 +113,13 @@ async function fetchTransactionByToken() {
   try {
     // Dekode token untuk mendapatkan id
     const decodedToken = parseJwt(token);
-    const userId = decodedToken.id; // Gunakan "id" sesuai dengan payload token Anda
+    console.log("Decoded Token:", decodedToken); // Debug token
 
-    if (!userId) {
+    const userId = decodedToken.id; // Pastikan menggunakan atribut "id" dari token
+    console.log("User ID dari Token:", userId); // Debug userId
+
+    if (typeof userId === "undefined" || userId === null) {
+      console.error("userId tidak ditemukan dalam decodedToken:", decodedToken);
       Swal.fire({
         icon: "error",
         title: "Kesalahan",
@@ -125,6 +129,7 @@ async function fetchTransactionByToken() {
     }
 
     const apiEndpoint = `https://backend-eight-phi-75.vercel.app/api/payment/transactions/${userId}`;
+    console.log("API Endpoint:", apiEndpoint); // Debug API Endpoint
 
     const response = await fetch(apiEndpoint, {
       method: "GET",
@@ -139,6 +144,7 @@ async function fetchTransactionByToken() {
     }
 
     const data = await response.json();
+    console.log("Data dari API:", data); // Debug respons API
 
     const orderHistory = document.getElementById("orderHistory");
     orderHistory.innerHTML = ""; // Bersihkan konten sebelumnya

@@ -255,7 +255,7 @@
         const userRole = parseJwt(token).role;
         if (userRole !== "admin") {
           alert("Anda tidak memiliki akses ke halaman ini.");
-          window.location.href = "/index.html";
+          window.location.href = "/transaksi.html";
         }
 
         // Tambahkan event listener untuk tombol logout

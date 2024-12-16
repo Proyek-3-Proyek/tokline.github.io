@@ -9,6 +9,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
       src="https://kit.fontawesome.com/your-kit-id.js"
       crossorigin="anonymous"
@@ -318,30 +319,52 @@
             }
           );
           if (!response.ok) throw new Error("Gagal menyimpan data");
-          alert("Produk berhasil disimpan");
+
+          Swal.fire("Berhasil!", "Produk berhasil disimpan.", "success");
           modal.classList.add("hidden");
           fetchProducts();
         } catch (error) {
           console.error(error);
-          alert("Error saat menyimpan produk");
+          Swal.fire(
+            "Error",
+            "Terjadi kesalahan saat menyimpan produk",
+            "error"
+          );
         }
       });
 
       // Hapus Produk
       async function deleteProduct(id) {
-        if (!confirm("Yakin ingin menghapus produk ini?")) return;
-        try {
-          const response = await fetch(`${BASE_URL}/produk/delete/${id}`, {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (!response.ok) throw new Error("Gagal menghapus produk");
-          alert("Produk berhasil dihapus");
-          fetchProducts();
-        } catch (error) {
-          console.error(error);
-          alert("Error saat menghapus produk");
-        }
+        Swal.fire({
+          title: "Konfirmasi Hapus",
+          text: "Apakah Anda yakin ingin menghapus produk ini?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Ya, hapus!",
+          cancelButtonText: "Batal",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              const response = await fetch(`${BASE_URL}/produk/delete/${id}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              if (!response.ok) throw new Error("Gagal menghapus produk");
+
+              Swal.fire("Dihapus!", "Produk berhasil dihapus.", "success");
+              fetchProducts();
+            } catch (error) {
+              console.error(error);
+              Swal.fire(
+                "Error",
+                "Terjadi kesalahan saat menghapus produk",
+                "error"
+              );
+            }
+          }
+        });
       }
 
       // Edit Produk
@@ -366,7 +389,7 @@
           modal.classList.remove("hidden");
         } catch (error) {
           console.error(error);
-          alert("Error saat mengambil data produk");
+          Swal.fire("Error", "Error saat mengambil data produk", "error");
         }
       }
 

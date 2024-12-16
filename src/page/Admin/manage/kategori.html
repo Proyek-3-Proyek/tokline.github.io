@@ -134,17 +134,36 @@
       const categoryModalTitle = document.getElementById("categoryModalTitle");
 
       // Fetch Kategori
+      // Fetch Kategori
       const fetchCategories = async () => {
+        Swal.fire({
+          title: "Memuat Data...",
+          text: "Mohon tunggu, data kategori sedang dimuat.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         try {
           const response = await fetch(`${BASE_URL}/kategori/all`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (!response.ok) throw new Error("Gagal mengambil data kategori");
+
           const categories = await response.json();
           renderCategories(categories);
+
+          // Tutup SweetAlert setelah data selesai dimuat
+          Swal.close();
         } catch (error) {
           console.error(error);
-          alert("Gagal memuat kategori");
+
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Memuat",
+            text: "Gagal mengambil data kategori.",
+          });
         }
       };
 

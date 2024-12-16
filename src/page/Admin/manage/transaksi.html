@@ -107,7 +107,6 @@
           });
           return;
         }
-
         const userRole = parseJwt(token).role;
         if (userRole !== "admin") {
           Swal.fire({

@@ -108,6 +108,17 @@
           return;
         }
 
+        const userRole = parseJwt(token).role;
+        if (userRole !== "admin") {
+          Swal.fire({
+            icon: "error",
+            title: "Akses Ditolak",
+            text: "Anda tidak memiliki akses ke halaman ini.",
+          }).then(() => {
+            window.location.href = "/product.html";
+          });
+        }
+
         // Fungsi fetch data transaksi
         async function fetchTransactions() {
           try {

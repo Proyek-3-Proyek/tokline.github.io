@@ -240,7 +240,7 @@
             : products;
 
           renderProducts(filteredProducts);
-          Swal.close(); 
+          Swal.close();
         } catch (error) {
           console.error(error);
           Swal.fire({
@@ -428,17 +428,27 @@
         const token = localStorage.getItem("token");
 
         if (!token) {
-          alert("Anda tidak memiliki akses. Silakan login sebagai admin.");
-          window.location.href =
-            "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+          Swal.fire({
+            icon: "error",
+            title: "Akses Ditolak",
+            text: "Anda tidak memiliki akses. Silakan login sebagai admin.",
+          }).then(() => {
+            window.location.href =
+              "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+          });
           return;
         }
 
         // Cek role user dari token JWT
         const userRole = parseJwt(token).role;
         if (userRole !== "admin") {
-          alert("Anda tidak memiliki akses ke halaman ini.");
-          window.location.href = "/product.html";
+          Swal.fire({
+            icon: "error",
+            title: "Akses Ditolak",
+            text: "Anda tidak memiliki akses ke halaman ini.",
+          }).then(() => {
+            window.location.href = "/product.html";
+          });
         }
 
         // Tambahkan event listener untuk tombol logout

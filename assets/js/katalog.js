@@ -148,9 +148,15 @@ async function orderProduct() {
     });
 
     // Arahkan ke halaman pembayaran Snap Midtrans
-    setTimeout(() => {
+    setTimeout(async () => {
+      // Redirect ke halaman Snap Midtrans
       window.location.href = result.data.snap_url;
-    }, 2000); // Redirect setelah SweetAlert ditutup
+
+      // Simulasikan pengecekan status transaksi secara otomatis setelah pembayaran selesai
+      setTimeout(() => {
+        updateTransactionStatus(result.data.transaction_id);
+      }, 5000); // Delay 5 detik untuk simulasi callback
+    }, 2000);
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
     Swal.fire({
@@ -291,3 +297,52 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Elemen Belanja tidak ditemukan di halaman.");
   }
 });
+
+// ------------------------------Transaction Status-----------------------------------------
+async function updateTransactionStatus(orderId) {
+  // Data untuk mengubah status transaksi
+  const notificationData = {
+    transaction_status: "settlement",
+    order_id: orderId,
+  };
+
+  try {
+    // Kirim permintaan POST ke endpoint notification
+    const response = await fetch(
+      "https://backend-eight-phi-75.vercel.app/api/payment/notification",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(notificationData),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Gagal memperbarui status transaksi:", errorData);
+      return;
+    }
+
+    const result = await response.json();
+    console.log("Status transaksi berhasil diperbarui:", result);
+
+    // Tampilkan notifikasi ke pengguna
+    Swal.fire({
+      icon: "success",
+      title: "Transaksi Selesai!",
+      text: "Status transaksi telah diperbarui menjadi Paid.",
+    });
+  } catch (error) {
+    console.error(
+      "Terjadi kesalahan saat memperbarui status transaksi:",
+      error
+    );
+    Swal.fire({
+      icon: "error",
+      title: "Kesalahan!",
+      text: "Gagal memperbarui status transaksi.",
+    });
+  }
+}

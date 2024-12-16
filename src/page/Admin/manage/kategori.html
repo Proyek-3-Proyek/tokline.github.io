@@ -295,33 +295,32 @@
         }
 
         // Tambahkan event listener untuk tombol logout
-        const logoutButton = document.getElementById("logoutButton");
-        logoutButton.addEventListener("click", () => {
-          Swal.fire({
-            icon: "info",
-            title: "Konfirmasi Logout",
-            text: "Apakah Anda yakin ingin logout?",
-            showCancelButton: true,
-            confirmButtonText: "Ya, Logout",
-            cancelButtonText: "Batal",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Hapus token dari localStorage
-              localStorage.removeItem("token");
-
-              // Redirect ke halaman login
-              Swal.fire({
-                icon: "success",
-                title: "Berhasil Logout",
-                text: "Anda telah logout.",
-                confirmButtonText: "OK",
-              }).then(() => {
-                window.location.href =
-                  "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
-              });
-            }
+        document
+          .getElementById("logoutButton")
+          .addEventListener("click", () => {
+            Swal.fire({
+              title: "Konfirmasi Logout",
+              text: "Apakah Anda yakin ingin logout?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#d33",
+              cancelButtonColor: "#3085d6",
+              confirmButtonText: "Ya, logout",
+              cancelButtonText: "Batal",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                localStorage.removeItem("token");
+                Swal.fire(
+                  "Logout Berhasil",
+                  "Anda telah logout.",
+                  "success"
+                ).then(() => {
+                  window.location.href =
+                    "https://proyek-3-proyek.github.io/tokline.github.io/src/page/auth/login.html";
+                });
+              }
+            });
           });
-        });
       });
 
       // Fungsi parseJwt untuk mem-parse token JWT

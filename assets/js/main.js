@@ -146,7 +146,7 @@ function updateLoginButton() {
     // Jika user adalah admin, arahkan ke dashboard admin
     if (userRole === "admin") {
       window.location.href =
-        "https://proyek-3-proyek.github.io/tokline.github.io/src/page/Admin/dashboard/index.html";
+        "/dashboard";
       return;
     }
 

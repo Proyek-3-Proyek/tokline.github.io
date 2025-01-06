@@ -162,8 +162,15 @@ function updateLoginButton() {
     // Tambahkan event listener untuk tombol Logout
     document.getElementById("logoutButton").addEventListener("click", () => {
       localStorage.removeItem("token"); // Hapus token dari localStorage
-      alert("Anda telah logout.");
-      updateLoginButton(); // Perbarui tampilan tombol
+
+      Swal.fire({
+        icon: "success",
+        title: "Logout Berhasil",
+        text: "Anda telah logout.",
+        confirmButtonText: "OK",
+      }).then(() => {
+        updateLoginButton(); // Perbarui tampilan tombol
+      });
     });
   } else {
     // Jika user belum login, tampilkan tombol Login

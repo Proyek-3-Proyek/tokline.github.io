@@ -179,12 +179,14 @@ function updateLoginButton() {
 }
 // Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector("a[href='/katalog']");
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/katalog/index.html']"
+  );
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {
       event.preventDefault(); // Mencegah perilaku default link
-      window.location.href = "./src/page/katalog/index.html"; // Arahkan ke halaman belanja
+      window.location.href = "/katalog"; // Redirect ke endpoint /katalog
     });
   } else {
     console.log("Elemen Belanja tidak ditemukan di halaman.");
@@ -193,7 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector("a[href='/history']");
+  const belanjaLink = document.querySelector(
+    "a[href='./src/page/history/index.html']"
+  );
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {

@@ -145,8 +145,7 @@ function updateLoginButton() {
 
     // Jika user adalah admin, arahkan ke dashboard admin
     if (userRole === "admin") {
-      window.location.href =
-        "/dashboard";
+      window.location.href = "/dashboard";
       return;
     }
 
@@ -180,9 +179,7 @@ function updateLoginButton() {
 }
 // Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector(
-    "a[href='./src/page/katalog/index.html']"
-  );
+  const belanjaLink = document.querySelector("a[href='/katalog']");
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {
@@ -196,14 +193,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Navigasi ke halaman belanja
 document.addEventListener("DOMContentLoaded", () => {
-  const belanjaLink = document.querySelector(
-    "a[href='./src/page/history/index.html']"
-  );
+  const belanjaLink = document.querySelector("a[href='/history']");
 
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {
       event.preventDefault(); // Mencegah perilaku default link
-      window.location.href = "./src/page/history/index.html"; // Arahkan ke halaman belanja
+      window.location.href = "/history"; // Arahkan ke halaman belanja
     });
   } else {
     console.log("Elemen history tidak ditemukan di halaman.");

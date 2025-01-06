@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (belanjaLink) {
     belanjaLink.addEventListener("click", function (event) {
       event.preventDefault(); // Mencegah perilaku default link
-      window.location.href = "/katalog"; // Redirect ke endpoint /katalog
+      window.location.href = "/belanja"; // Redirect ke endpoint /katalog
     });
   } else {
     console.log("Elemen Belanja tidak ditemukan di halaman.");

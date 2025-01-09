@@ -170,6 +170,7 @@ function updateLoginButton() {
         confirmButtonText: "OK",
       }).then(() => {
         updateLoginButton(); // Perbarui tampilan tombol
+        window.location.href = "/login"; // Arahkan ke halaman login
       });
     });
   } else {
